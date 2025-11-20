@@ -3,7 +3,7 @@ package levelup.desktop.java.ui;
 import javafx.fxml.FXMLLoader;
 import javafx.scene.Parent;
 import javafx.scene.Scene;
-import javafx.scene.effect.GaussianBlur;
+//import javafx.scene.effect.GaussianBlur;
 import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
 import javafx.scene.layout.StackPane;
@@ -34,7 +34,7 @@ public class GerenciadorTelas {
             Parent conteudo = loader.load();
 
             // carregar imagem de fundo com blur
-            URL bgUrl = App.class.getResource("/images/fundo12.jpg");
+            URL bgUrl = App.class.getResource("/images/fundo7.jpg");
             StackPane container;
 
             if (bgUrl != null) {
@@ -45,7 +45,7 @@ public class GerenciadorTelas {
                 bgView.setCache(true);
 
                 // blur suave (você já tinha colocado 2)
-                bgView.setEffect(new GaussianBlur(5));
+                //bgView.setEffect(new GaussianBlur(0));
 
                 // imagem acompanha o tamanho do root
                 bgView.fitWidthProperty().bind(root.widthProperty());
@@ -67,8 +67,8 @@ public class GerenciadorTelas {
             );
 
             // tamanho da janela pra tela de login
-            stage.setWidth(700);
-            stage.setHeight(400);
+            stage.setWidth(900);
+            stage.setHeight(600);
             stage.centerOnScreen();
 
             // arrastar janela pelo root

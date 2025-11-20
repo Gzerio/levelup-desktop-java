@@ -5,75 +5,54 @@
 
 /* CONTAINER PRINCIPAL (janela de vidro) */
 .glass-root {
-    -fx-background-color: rgba(27, 16, 51, 0.33);
+    -fx-background-color: rgba(4, 0, 20, 0);
     -fx-background-radius: 20;
     -fx-border-radius: 20;
-    -fx-border-color: rgba(211, 193, 255, 0.72);
+    -fx-border-color: rgba(231, 231, 231, 0.685);
     -fx-border-width: 1.2;
     -fx-padding: 0;
-    -fx-effect: dropshadow(gaussian, rgba(0,0,0,0.85), 35, 0.35, 0, 12);
+    -fx-effect: dropshadow(gaussian, rgba(0,0,0,0.9), 38, 0.45, 0, 14);
 }
 
-/* CARDS INTERNOS (esquerda e direita) */
-.glass-card {
-    -fx-background-color: rgba(15, 23, 42, 0.85);
-    -fx-background-radius: 22;
-    -fx-border-radius: 22;
-    -fx-border-color: rgba(255, 255, 255, 0.18);
-    -fx-border-width: 1.2;
-    -fx-padding: 24 28 24 28;
+/* ===================== CARD DE LOGIN/CADASTRO ===================== */
+
+.auth-card {
+    -fx-background-radius: 30;
+    -fx-border-radius: 30;
+
+    /* fundo que você já estava usando */
+    -fx-background-insets: 0;
+    -fx-background-color: rgba(207, 207, 207, 0.151);
+
+    /* 2 camadas de borda:
+       1) borda base cinza
+       2) highlight só no topo e na direita */
+    -fx-border-color:
+        rgba(122, 122, 122, 0.32),          /* borda base */
+        rgba(255, 255, 255, 0.199);          /* brilho */
+    
+    /* 1ª camada: borda normal em todos os lados
+       2ª camada: 2px no topo e direita, 0 em baixo/esquerda */
+    -fx-border-width:
+        1.4,
+        2 2 0 0;
+
+    /* levemente “pra dentro” pra não brigar visualmente com a de baixo */
+    -fx-border-insets:
+        0,
+        0.4;
+
+    -fx-padding: 26 38 30 38;
+    -fx-effect: dropshadow(gaussian, rgba(75, 75, 75, 0.151), 28, 0.55, 0, 0.151);
+
+    -fx-min-width: 600;
+    -fx-max-width: 600;
+    -fx-max-height: 380;
 }
 
-.glass-info-card {
-    -fx-pref-width: 320;
-}
 
-.glass-login-card {
-    -fx-pref-width: 320;
-}
-
-/* TEXTOS ESQUERDA */
-.glass-logo {
-    -fx-text-fill: #e5e7eb;
-    -fx-font-size: 18px;
-    -fx-font-weight: bold;
-}
-
-.glass-big-title {
-    -fx-text-fill: #f9fafb;
-    -fx-font-size: 16px;
-    -fx-font-weight: bold;
-    -fx-padding: 6 0 4 0;
-}
-
-.glass-paragraph {
-    -fx-text-fill: #e5e7eb;
-    -fx-font-size: 14px;
-}
-
-/* BOTÃO SECUNDÁRIO (se usar em outras telas) */
-.glass-secondary-button {
-    -fx-background-radius: 999;
-    -fx-background-color: rgba(15, 23, 42, 0.9);
-    -fx-border-color: rgba(255, 255, 255, 0.6);
-    -fx-border-width: 1;
-    -fx-text-fill: #e5e7eb;
-    -fx-font-size: 12px;
-    -fx-padding: 6 16 6 16;
-    -fx-cursor: hand;
-}
-
-.glass-secondary-button:hover {
-    -fx-background-color: rgb(27, 36, 56);
-}
-
-/* COLUNA ESQUERDA */
-.area-esquerda {
-    -fx-alignment: TOP_LEFT;
-    -fx-spacing: 12;
-}
-
-/* LADO DIREITO (LOGIN) */
+/* COLUNAS INTERNAS */
+.register-pane,
 .login-pane {
     -fx-alignment: TOP_CENTER;
     -fx-spacing: 14;
@@ -86,52 +65,75 @@
     -fx-padding: 0 0 6 0;
 }
 
-/* CAMPOS DE TEXTO */
+/* CAMPOS DE TEXTO – estilo glass */
 .login-field {
-    -fx-background-radius: 999;
+    -fx-background-radius: 999, 998;
     -fx-border-radius: 999;
-    -fx-background-color: rgba(15, 23, 42, 0.55);
+    -fx-background-insets: 0, 1;
+    -fx-background-color:
+        rgba(85, 85, 85, 0.123),     /* camada principal */
+        rgba(255, 255, 255, 0.096); 
+    -fx-border-color: rgba(248, 250, 252, 0.55);
+    -fx-border-width: 1.3;
     -fx-text-fill: #e5e7eb;
-    -fx-prompt-text-fill: #a5b4fc;
-    -fx-border-color: rgba(196, 181, 253, 0.8);
-    -fx-border-width: 1.4;
+    -fx-prompt-text-fill: rgba(209, 213, 219, 0.90);
     -fx-padding: 8 14 8 14;
-    -fx-min-height: 32;
+    -fx-min-height: 34;
+    -fx-effect: dropshadow(gaussian, rgba(15, 23, 42, 0.151), 12, 0.35, 0, 0.151);
 }
 
 .login-field:focused {
-    -fx-border-color: #a855f7;
-    -fx-effect: dropshadow(gaussian, rgba(168,85,247,0.55), 16, 0.35, 0, 0);
+    -fx-border-color: linear-gradient(to right, #44144e91, #58097752);
+    -fx-effect: null;
 }
 
-/* BOTÃO ENTRAR */
+/* BOTÕES – glass + pill */
 .login-button {
     -fx-background-radius: 999;
-    -fx-background-color: linear-gradient(to bottom, #4b274b, #3b153b);
-    -fx-text-fill: #e5e7eb;
+    -fx-border-radius: 999;
+    -fx-background-insets: 0, 1;
+    -fx-background-color:
+        rgba(248, 250, 252, 0.95),
+        rgba(209, 213, 219, 0.65);
+    -fx-border-color: rgba(248, 250, 252, 0.9);
+    -fx-border-width: 1.4;
+    -fx-text-fill: #111827;
     -fx-font-weight: bold;
-    -fx-padding: 8 14 8 14;
+    -fx-font-size: 13px;
+    -fx-padding: 8 16 8 16;
     -fx-cursor: hand;
-    -fx-effect: dropshadow(gaussian, rgba(15, 23, 42, 0.45), 10, 0.25, 0, 2);
+    -fx-effect: dropshadow(gaussian, rgba(15, 23, 42, 0.151), 16, 0.55, 0, 0.151);
 }
 
 .login-button:hover {
-    -fx-background-color: linear-gradient(to bottom, #745c75, #6b4d7c);
+    -fx-background-color:
+        rgba(255, 255, 255, 0.267),
+        rgba(229, 231, 235, 0.85);
+    -fx-effect: dropshadow(gaussian, rgba(191, 219, 254, 0), 18, 0.65, 0, 0);
+}
+
+.login-button:pressed {
+    -fx-effect: dropshadow(gaussian, rgba(15, 23, 42, 0), 10, 0.55, 0, 0);
 }
 
 .login-button:disabled {
-    -fx-opacity: 0.6;
+    -fx-background-color: rgba(56, 65, 78, 0.37); /* fundo cinza vidro */
+    -fx-border-color: rgba(156, 163, 175, 0.7);   /* borda mais apagada */
+    -fx-text-fill: #9ca3af;                       /* texto apagado */
+    -fx-opacity: 1;                               /* se não quiser ficar transparente */
+    -fx-effect: null;                             /* opcional: sem sombra */
 }
 
-/* LINKS (ESQUECI SENHA / CADASTRAR) */
+
+/* LINKS (ESQUECI SENHA / REGISTRAR) */
 .login-link {
-    -fx-text-fill: #38bdf8;
+    -fx-text-fill: #dadada;
     -fx-underline: false;
     -fx-font-size: 12px;
 }
 
 .login-link:hover {
-    -fx-text-fill: #0ea5e9;
+    -fx-text-fill: #cacaca;
     -fx-underline: true;
 }
 
@@ -146,61 +148,68 @@
     -fx-text-fill: #e5e7eb;
 }
 
+/* textinho explicativo embaixo do botão de cadastro */
+.register-hint {
+    -fx-text-fill: #9ca3af;
+    -fx-font-size: 11px;
+}
+
 /* ===================== BARRA ESTILO macOS ===================== */
 
 .mac-titlebar {
-    -fx-background-color: #11011f;
-    -fx-padding: 8 12 8 12;
+    /* formato da barra (cantos superiores arredondados) */
     -fx-background-radius: 19 19 0 0;
+    
     -fx-border-radius: 19 19 0 0;
-    -fx-border-color: transparent transparent rgba(211,193,255,0.6) transparent;
-    -fx-border-width: 1 1 1 1;
+
+    /* fundo semi-transparente no mesmo estilo do card */
+    -fx-background-insets: 0;
+   -fx-background-color: rgba(207, 207, 207, 0.151);
+
+    /* 2 camadas de borda:
+       1) borda base bem suave
+       2) brilho no topo e na direita (tipo reflexo) */
+    -fx-border-color:
+        rgba(122, 122, 122, 0.32),      /* borda base */
+        rgba(255, 255, 255, 0.20);      /* highlight */
+
+    /* 1ª camada: borda fina em todos os lados
+       2ª camada: só topo e direita (sem baixo/esquerda) */
+    -fx-border-width:
+        1,
+        2 2 2 2;
+
+    /* empurra levemente a borda de highlight pra dentro */
+    -fx-border-insets:
+        0,
+        0.4;
+
+    /* espaçamento interno da barra */
+    -fx-padding: 8 12 8 12;
+
+    /* sombra mais leve que o card pra não ficar pesado no topo */
+    -fx-effect: dropshadow(gaussian, rgba(0, 0, 0, 0), 14, 0.4, 0, 4);
 }
 
 .mac-title {
     -fx-text-fill: #faf9fb;
-    -fx-font-size: 15px;
+    -fx-font-size: 16px;
     -fx-font-weight: bold;
     -fx-opacity: 0.9;
     -fx-letter-spacing: 0.5px;
     -fx-alignment: CENTER;
 }
 
-/* BOTÕES DA JANELA (MIN / FECHAR) */
-.window-button-base {
-    -fx-background-color: transparent;
-    -fx-text-fill: #8764c0;
-    -fx-font-size: 10px;
-    -fx-font-weight: bold;
-    -fx-background-radius: 999;
-    -fx-border-radius: 999;
-    -fx-border-color: #8764c0;
-    -fx-border-width: 1;
-    -fx-padding: 2 10 2 10;
-    -fx-cursor: hand;
-}
-
-.window-button-base:hover {
-    -fx-background-color: rgba(135, 100, 192, 0.15);
-}
-
-.window-button-min {
-    -fx-background-color: transparent;
-}
-.window-button-min:hover {
-    -fx-background-color: rgba(135, 100, 192, 0.15);
-}
-
-/* herda o visual base e só muda hover */
+/* BOTÃO FECHAR JANELA */
 .window-button-close {
     -fx-background-color: transparent;
-    -fx-text-fill: #8764c0;
+    -fx-text-fill: #ffffff;
     -fx-font-size: 10px;
     -fx-font-weight: bold;
     -fx-background-radius: 999;
-    -fx-border-radius: 999;
-    -fx-border-color: #8764c0;
-    -fx-border-width: 1;
+    
+    
+    
     -fx-padding: 2 10 2 10;
     -fx-cursor: hand;
 }
@@ -208,57 +217,15 @@
 .window-button-close:hover {
     -fx-background-color: rgba(249, 115, 115, 0.15);
     -fx-text-fill: #f97373;
-    -fx-border-color: #f97373;
+    
 }
-
 
 /* DIVISOR VERTICAL ENTRE ESQUERDA E DIREITA */
 .login-divider {
-    -fx-opacity: 0.85;
+    -fx-opacity: 0.7;
 }
 
 .login-divider:vertical .line {
-    -fx-border-color: rgba(248, 250, 252, 0.75);
+    -fx-border-color: rgba(255, 255, 255, 0.24);
     -fx-border-width: 0 0 0 1;
-}
-
-/* CHIPS DE FUNCIONALIDADE (se usar em outras telas) */
-.feature-tag {
-    -fx-background-color: rgba(15, 23, 42, 0.75);
-    -fx-text-fill: #e5e7eb;
-    -fx-font-size: 11px;
-    -fx-padding: 4 10 4 10;
-    -fx-background-radius: 999;
-    -fx-border-radius: 999;
-    -fx-border-color: rgba(196, 181, 253, 0.7);
-    -fx-border-width: 1;
-}
-
-.feature-tag-highlight {
-    -fx-background-color: rgba(129, 140, 248, 0.35);
-    -fx-border-color: #a855f7;
-}
-
-/* BOTÃO "Voltar ao login" (se usar na tela de cadastro) */
-.back-button {
-    -fx-background-color: transparent;
-    -fx-text-fill: #a5b4fc;
-    -fx-font-size: 11px;
-    -fx-padding: 0 0 8 0;
-    -fx-cursor: hand;
-}
-
-.back-button:hover {
-    -fx-text-fill: #c4b5fd;
-}
-/* coluna de cadastro (esquerda) */
-.register-pane {
-    -fx-alignment: TOP_CENTER;
-    -fx-spacing: 10;
-}
-
-/* textinho explicativo embaixo do botão de cadastro */
-.register-hint {
-    -fx-text-fill: #9ca3af;
-    -fx-font-size: 11px;
 }

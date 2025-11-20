@@ -10,6 +10,7 @@
 <?import javafx.scene.layout.BorderPane?>
 <?import javafx.scene.layout.HBox?>
 <?import javafx.scene.layout.VBox?>
+<?import javafx.scene.layout.StackPane?>
 
 <BorderPane xmlns:fx="http://javafx.com/fxml"
             fx:controller="levelup.desktop.java.ui.TelaLoginController"
@@ -23,16 +24,12 @@
 
             <!-- título -->
             <center>
-                <Label text="LevelUp" styleClass="mac-title"/>
+                <Label text="LEVELUP" styleClass="mac-title"/>
             </center>
 
             <!-- botões à direita -->
             <right>
                 <HBox spacing="6">
-                    <!-- minimizar -->
-                    
-
-                    <!-- fechar -->
                     <Button fx:id="botaoFechar"
                             text="✕"
                             onAction="#aoClicarFechar"
@@ -44,120 +41,126 @@
     </top>
 
     <!-- CONTEÚDO CENTRAL -->
-<center>
-    <HBox BorderPane.alignment="CENTER" alignment="CENTER" spacing="40">
-        <padding>
-            <Insets top="40" right="60" bottom="40" left="60"/>
-        </padding>
+    <center>
+        <!-- StackPane central pra manter o card no meio da janela -->
+        <StackPane BorderPane.alignment="CENTER" alignment="CENTER">
 
-        <!-- COLUNA ESQUERDA (CADASTRO) -->
-        <VBox styleClass="register-pane glass-card glass-login-card">
+            <!-- CARD ÚNICO (Cadastro + Login) -->
+            <StackPane styleClass="auth-card">
+                
+                <HBox alignment="CENTER" spacing="40">
+                    <padding>
+                        <!-- padding interno do card -->
+                        <Insets top="26" right="40" bottom="30" left="40"/>
+                    </padding>
 
-            <Label text="Criar conta"
-                   styleClass="login-title"
-                   maxWidth="Infinity"
-                   alignment="CENTER"/>
+                    <!-- LADO ESQUERDO: CADASTRO -->
+                    <VBox alignment="TOP_CENTER"
+                          styleClass="register-pane">
+                        <Label text="Criar conta"
+                               styleClass="login-title"
+                               maxWidth="Infinity"
+                               alignment="CENTER"/>
 
-            <VBox spacing="10" alignment="CENTER">
-                <TextField fx:id="campoNomeCadastro"
-                           promptText="Nome"
-                           prefWidth="260"
-                           maxWidth="260"
-                           styleClass="login-field"/>
+                        <VBox spacing="10" alignment="CENTER">
+                            <TextField fx:id="campoNomeCadastro"
+                                       promptText="Nome"
+                                       prefWidth="260"
+                                       maxWidth="260"
+                                       styleClass="login-field"/>
 
-                <TextField fx:id="campoEmailCadastro"
-                           promptText="E-mail"
-                           prefWidth="260"
-                           maxWidth="260"
-                           styleClass="login-field"/>
+                            <TextField fx:id="campoEmailCadastro"
+                                       promptText="E-mail"
+                                       prefWidth="260"
+                                       maxWidth="260"
+                                       styleClass="login-field"/>
 
-                <PasswordField fx:id="campoSenhaCadastro"
-                               promptText="Senha"
+                            <PasswordField fx:id="campoSenhaCadastro"
+                                           promptText="Senha"
+                                           prefWidth="260"
+                                           maxWidth="260"
+                                           styleClass="login-field"/>
+
+                            <PasswordField fx:id="campoConfirmarSenhaCadastro"
+                                           promptText="Confirmar senha"
+                                           prefWidth="260"
+                                           maxWidth="260"
+                                           styleClass="login-field"/>
+
+                            <Button fx:id="botaoConfirmarCadastro"
+                                    text="Cadastrar-se"
+                                    onAction="#aoClicarCadastrar"
+                                    prefWidth="260"
+                                    maxWidth="260"
+                                    styleClass="login-button"/>
+                        </VBox>
+
+                        <Label text="Já tem conta? Use o painel à direita para entrar."
+                               wrapText="true"
                                prefWidth="260"
                                maxWidth="260"
-                               styleClass="login-field"/>
+                               styleClass="register-hint">
+                            <VBox.margin>
+                                <Insets top="16"/>
+                            </VBox.margin>
+                        </Label>
+                    </VBox>
 
-                <PasswordField fx:id="campoConfirmarSenhaCadastro"
-                               promptText="Confirmar senha"
+                    <!-- DIVISOR VERTICAL -->
+                    <Separator orientation="VERTICAL"
+                               prefHeight="260"
+                               styleClass="login-divider"/>
+
+                    <!-- LADO DIREITO: LOGIN -->
+                    <VBox alignment="TOP_CENTER"
+                          styleClass="login-pane">
+                        <Label text="Login"
+                               styleClass="login-title"
+                               maxWidth="Infinity"
+                               alignment="CENTER"/>
+
+                        <VBox spacing="12" alignment="CENTER">
+                            <TextField fx:id="campoEmail"
+                                       promptText="E-mail"
+                                       prefWidth="260"
+                                       maxWidth="260"
+                                       styleClass="login-field"/>
+
+                            <PasswordField fx:id="campoSenha"
+                                           promptText="Senha"
+                                           prefWidth="260"
+                                           maxWidth="260"
+                                           styleClass="login-field"/>
+
+                            <Button fx:id="botaoEntrar"
+                                    text="Entrar"
+                                    onAction="#aoClicarEntrar"
+                                    prefWidth="260"
+                                    maxWidth="260"
+                                    styleClass="login-button"/>
+                        </VBox>
+
+                        <Hyperlink text="Esqueci minha senha"
+                                   onAction="#aoClicarEsqueciSenha"
+                                   styleClass="login-link">
+                            <VBox.margin>
+                                <Insets top="12"/>
+                            </VBox.margin>
+                        </Hyperlink>
+
+                        <Label fx:id="labelErro"
+                               wrapText="true"
                                prefWidth="260"
                                maxWidth="260"
-                               styleClass="login-field"/>
-
-                <Button fx:id="botaoConfirmarCadastro"
-                        text="Cadastrar-se"
-                        onAction="#aoClicarCadastrar"
-                        prefWidth="260"
-                        maxWidth="260"
-                        styleClass="login-button"/>
-            </VBox>
-
-            <Label text="Já tem conta? Use o painel à direita para entrar."
-                   wrapText="true"
-                   prefWidth="260"
-                   maxWidth="260"
-                   styleClass="register-hint">
-                <VBox.margin>
-                    <Insets top="10"/>
-                </VBox.margin>
-            </Label>
-        </VBox>
-
-        <!-- DIVISOR VERTICAL -->
-        <VBox alignment="CENTER">
-            <Separator orientation="VERTICAL"
-                       prefHeight="260"
-                       styleClass="login-divider"/>
-        </VBox>
-
-        <!-- COLUNA DIREITA (LOGIN) -->
-        <VBox styleClass="login-pane glass-card glass-login-card">
-
-            <Label text="Login"
-                   styleClass="login-title"
-                   maxWidth="Infinity"
-                   alignment="CENTER"/>
-
-            <VBox spacing="12" alignment="CENTER">
-                <TextField fx:id="campoEmail"
-                           promptText="E-mail"
-                           prefWidth="260"
-                           maxWidth="260"
-                           styleClass="login-field"/>
-
-                <PasswordField fx:id="campoSenha"
-                               promptText="Senha"
-                               prefWidth="260"
-                               maxWidth="260"
-                               styleClass="login-field"/>
-
-                <Button fx:id="botaoEntrar"
-                        text="Entrar"
-                        onAction="#aoClicarEntrar"
-                        prefWidth="260"
-                        maxWidth="260"
-                        styleClass="login-button"/>
-            </VBox>
-
-            <Hyperlink text="Esqueci minha senha"
-                       onAction="#aoClicarEsqueciSenha"
-                       styleClass="login-link">
-                <VBox.margin>
-                    <Insets top="10"/>
-                </VBox.margin>
-            </Hyperlink>
-
-            <Label fx:id="labelErro"
-                   wrapText="true"
-                   prefWidth="260"
-                   maxWidth="260"
-                   styleClass="login-error">
-                <VBox.margin>
-                    <Insets top="8"/>
-                </VBox.margin>
-            </Label>
-        </VBox>
-    </HBox>
-</center>
-
+                               styleClass="login-error">
+                            <VBox.margin>
+                                <Insets top="8"/>
+                            </VBox.margin>
+                        </Label>
+                    </VBox>
+                </HBox>
+            </StackPane>
+        </StackPane>
+    </center>
 
 </BorderPane>

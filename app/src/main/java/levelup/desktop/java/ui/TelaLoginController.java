@@ -1,12 +1,21 @@
 package levelup.desktop.java.ui;
 
+import javafx.application.Platform;
 import javafx.fxml.FXML;
+import javafx.scene.Node;
 import javafx.scene.control.Button;
 import javafx.scene.control.Label;
 import javafx.scene.control.PasswordField;
 import javafx.scene.control.TextField;
 import javafx.stage.Stage;
+import levelup.desktop.java.backend.AuthService;
+import levelup.desktop.java.backend.AuthService.AuthException;
+import levelup.desktop.java.sessao.SessaoUsuario;
+import javafx.scene.effect.GaussianBlur;
+import javafx.scene.layout.StackPane;
 
+
+import java.io.IOException;
 import java.util.regex.Pattern;
 
 public class TelaLoginController {
@@ -41,9 +50,18 @@ public class TelaLoginController {
     @FXML
     private Button botaoConfirmarCadastro;
 
-    // Regex simples de e-mail (sem frescura demais)
+    
+
+    // Regex simples de e-mail
     private static final Pattern EMAIL_REGEX =
             Pattern.compile("^[^\\s@]+@[^\\s@]+\\.[^\\s@]+$");
+
+    // Service para chamar o backend
+    private final AuthService authService = new AuthService();
+
+    // Flags pra não deixar os listeners reabilitarem botão enquanto request tá rolando
+    private boolean loginEmAndamento = false;
+    private boolean cadastroEmAndamento = false;
 
     @FXML
     public void initialize() {
@@ -67,10 +85,10 @@ public class TelaLoginController {
 
         // Listeners para habilitar/desabilitar o botão de cadastro
         if (campoNomeCadastro != null &&
-            campoEmailCadastro != null &&
-            campoSenhaCadastro != null &&
-            campoConfirmarSenhaCadastro != null &&
-            botaoConfirmarCadastro != null) {
+                campoEmailCadastro != null &&
+                campoSenhaCadastro != null &&
+                campoConfirmarSenhaCadastro != null &&
+                botaoConfirmarCadastro != null) {
 
             campoNomeCadastro.textProperty().addListener((obs, o, n) -> validarEstadoCadastro());
             campoEmailCadastro.textProperty().addListener((obs, o, n) -> validarEstadoCadastro());
@@ -100,18 +118,56 @@ public class TelaLoginController {
             return;
         }
 
-        setErro("Login validado. Depois a gente pluga no backend, mizira. 😎");
-        // aqui depois vamos chamar a API de login e abrir a tela principal
+        // Marca que estamos em request de login
+        loginEmAndamento = true;
+        if (botaoEntrar != null) {
+            botaoEntrar.setDisable(true);
+        }
+        setErro("Login: autenticando, segura aí...");
+
+        // Thread para não travar a UI
+        new Thread(() -> {
+            try {
+                String token = authService.login(email, senha);
+
+                // Guarda token na sessão
+                SessaoUsuario.setTokenJwt(token);
+                SessaoUsuario.setEmail(email);
+
+                Platform.runLater(() -> {
+                    loginEmAndamento = false;
+                    limparErro();
+                    setErro("Login ok! Depois a gente abre a tela principal, mizira. 😎");
+                    validarEstadoLogin(); // reavalia habilitação do botão
+
+                    // TODO: aqui você chama o GerenciadorTelas pra ir pra tela principal
+                    // GerenciadorTelas.mostrarTelaPrincipal();
+                });
+            } catch (AuthException e) {
+                Platform.runLater(() -> {
+                    loginEmAndamento = false;
+                    setErro("Login: " + e.getMessage());
+                    validarEstadoLogin();
+                });
+            } catch (IOException | InterruptedException e) {
+                e.printStackTrace();
+                Platform.runLater(() -> {
+                    loginEmAndamento = false;
+                    setErro("Login: não consegui falar com o servidor. Confere se a API tá rodando.");
+                    validarEstadoLogin();
+                });
+            }
+        }).start();
     }
 
     private void validarEstadoLogin() {
         if (botaoEntrar == null) return;
+        if (loginEmAndamento) return; // não mexe enquanto tá chamando backend
 
         String email = campoEmail != null ? campoEmail.getText().trim() : "";
         String senha = campoSenha != null ? campoSenha.getText() : "";
 
         boolean camposPreenchidos = !email.isEmpty() && !senha.isEmpty();
-        // não precisa validar tudo pra habilitar, só não deixar vazio
         botaoEntrar.setDisable(!camposPreenchidos);
     }
 
@@ -123,7 +179,7 @@ public class TelaLoginController {
 
         if (campoNomeCadastro == null) {
             // fallback caso ainda não tenha implementado os campos de cadastro no FXML
-            setErro("Tela de cadastro ainda não foi toda ligada no FXML. 😉");
+            setErro("Cadastro: tela ainda não está totalmente ligada no FXML. 😉");
             return;
         }
 
@@ -163,12 +219,47 @@ public class TelaLoginController {
             return;
         }
 
-        setErro("Cadastro validado. Próximo passo é mandar pro backend. 🚀");
-        // aqui depois vamos chamar a API de cadastro
+        cadastroEmAndamento = true;
+        if (botaoConfirmarCadastro != null) {
+            botaoConfirmarCadastro.setDisable(true);
+        }
+        setErro("Cadastro: enviando seus dados pro servidor...");
+
+        new Thread(() -> {
+            try {
+                authService.registrar(nome, email, senha);
+
+                Platform.runLater(() -> {
+                    cadastroEmAndamento = false;
+                    setErro("Cadastro feito! Agora é só logar ali à direita. 🚀");
+
+                    // opcional: já preenche o login
+                    if (campoEmail != null) campoEmail.setText(email);
+                    if (campoSenha != null) campoSenha.setText(senha);
+
+                    validarEstadoCadastro();
+                    validarEstadoLogin();
+                });
+            } catch (AuthException e) {
+                Platform.runLater(() -> {
+                    cadastroEmAndamento = false;
+                    setErro("Cadastro: " + e.getMessage());
+                    validarEstadoCadastro();
+                });
+            } catch (IOException | InterruptedException e) {
+                e.printStackTrace();
+                Platform.runLater(() -> {
+                    cadastroEmAndamento = false;
+                    setErro("Cadastro: não consegui falar com o servidor. Confere se a API tá rodando.");
+                    validarEstadoCadastro();
+                });
+            }
+        }).start();
     }
 
     private void validarEstadoCadastro() {
         if (botaoConfirmarCadastro == null) return;
+        if (cadastroEmAndamento) return;
 
         String nome = campoNomeCadastro != null ? campoNomeCadastro.getText().trim() : "";
         String email = campoEmailCadastro != null ? campoEmailCadastro.getText().trim() : "";
@@ -176,26 +267,23 @@ public class TelaLoginController {
         String confirmar = campoConfirmarSenhaCadastro != null ? campoConfirmarSenhaCadastro.getText() : "";
 
         boolean temAlgo = !nome.isEmpty() || !email.isEmpty() || !senha.isEmpty() || !confirmar.isEmpty();
-
-        // Se o usuário começou a digitar, habilita; se tá tudo vazio, desabilita
         botaoConfirmarCadastro.setDisable(!temAlgo);
     }
 
-    // ================== BOTÕES JANELA ==================
+    // ================== BOTÃO FECHAR JANELA ==================
 
     @FXML
     private void aoClicarFechar() {
-        Stage stage = (Stage) botaoFecharOuCampo().getScene().getWindow();
+        Stage stage = (Stage) pegarAlgumNode().getScene().getWindow();
         stage.close();
     }
 
-    
-
     // pega algum node que com certeza existe pra achar o stage
-    private javafx.scene.Node botaoFecharOuCampo() {
+    private Node pegarAlgumNode() {
         if (campoEmail != null) return campoEmail;
         if (campoEmailCadastro != null) return campoEmailCadastro;
-        return botaoEntrar != null ? botaoEntrar : botaoConfirmarCadastro;
+        if (botaoEntrar != null) return botaoEntrar;
+        return botaoConfirmarCadastro;
     }
 
     // ================== FLUXO "ESQUECI SENHA" ==================
