@@ -1,5 +1,5 @@
 package levelup.desktop.java.ui.efeitos;
-
+//
 import javafx.geometry.Bounds;
 import javafx.geometry.Rectangle2D;
 import javafx.scene.Node;

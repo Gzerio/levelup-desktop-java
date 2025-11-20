@@ -4,7 +4,7 @@ public class SessaoUsuario {
 
     private static String tokenJwt;
     private static String email;
-
+//
     private SessaoUsuario() {
         
     }

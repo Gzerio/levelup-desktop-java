@@ -45,7 +45,7 @@ public class GerenciadorTelas {
 
                 container = new StackPane(bgView, conteudo);
             } else {
-                System.err.println("ATENÇÃO: Imagem /images/fundo17.jpg não encontrada no classpath.");
+                System.err.println("ATENÇÃO: Imagem não encontrada no classpath.");
                 container = new StackPane(conteudo);
             }
 

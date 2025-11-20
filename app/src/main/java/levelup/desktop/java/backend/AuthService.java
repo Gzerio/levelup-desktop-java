@@ -77,7 +77,7 @@ public class AuthService {
         } else if (status == 400) {
             throw new AuthException("Dados inválidos para cadastro.");
         } else {
-            throw new AuthException("Erro ao cadastrar (HTTP " + status + ").");
+            throw new AuthException("Erro ao cadastrar. (HTTP " + status + ").");
         }
     }
 

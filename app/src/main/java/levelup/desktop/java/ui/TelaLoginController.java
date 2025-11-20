@@ -221,7 +221,7 @@ public class TelaLoginController {
 
                 Platform.runLater(() -> {
                     cadastroEmAndamento = false;
-                    setErro("Cadastro feito! Agora é só logar ali à direita. 🚀");
+                    setErro("Cadastro feito! Agora é só logar ali à direita. ");
 
                     if (campoEmail != null) campoEmail.setText(email);
                     if (campoSenha != null) campoSenha.setText(senha);

@@ -2,7 +2,7 @@
     -fx-font-family: "Segoe UI", "Roboto", "Arial";
     -fx-background-color: transparent;
 }
-
+/*  */
 .glass-root {
     -fx-background-color: rgba(4, 0, 20, 0);
     -fx-background-radius: 20;
