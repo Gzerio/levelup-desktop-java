@@ -11,15 +11,11 @@ import java.util.regex.Pattern;
 
 public class AuthService {
 
-    // Ajusta aqui se tua API estiver em outra porta/host
+
     private static final String BASE_URL = "http://localhost:8080";
 
     private final HttpClient httpClient = HttpClient.newHttpClient();
 
-    // ===== LOGIN =====
-    // POST /auth/login
-    // body: { "email": "...", "senha": "..." }
-    // response: { "token": "..." }
     public String login(String email, String senha)
             throws IOException, InterruptedException, AuthException {
 
@@ -53,10 +49,6 @@ public class AuthService {
         }
     }
 
-    // ===== CADASTRO =====
-    // POST /usuarios
-    // body esperado pelo UsuarioController:
-    //   Usuario com pelo menos: nome, email, senhaHash
     public void registrar(String nome, String email, String senha)
             throws IOException, InterruptedException, AuthException {
 
@@ -78,10 +70,9 @@ public class AuthService {
         int status = response.statusCode();
 
         if (status == 200 || status == 201) {
-            // beleza, usuário criado
+
             return;
         } else if (status == 409) {
-            // se você tratar conflito de e-mail no backend com 409
             throw new AuthException("E-mail já cadastrado.");
         } else if (status == 400) {
             throw new AuthException("Dados inválidos para cadastro.");
@@ -90,10 +81,7 @@ public class AuthService {
         }
     }
 
-    // ===== Helpers =====
-
     private String extrairToken(String body) {
-        // resposta esperada: {"token":"..."}
         Pattern p = Pattern.compile("\"token\"\\s*:\\s*\"([^\"]+)\"");
         Matcher m = p.matcher(body);
         if (m.find()) {
@@ -104,7 +92,6 @@ public class AuthService {
 
     private String escapeJson(String valor) {
         if (valor == null) return "";
-        // escapinho simples o suficiente pra email/senha/nome
         return valor
                 .replace("\\", "\\\\")
                 .replace("\"", "\\\"");

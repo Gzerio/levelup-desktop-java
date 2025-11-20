@@ -6,7 +6,7 @@ public class SessaoUsuario {
     private static String email;
 
     private SessaoUsuario() {
-        // só estático, não instancia
+        
     }
 
     public static String getTokenJwt() {

@@ -3,7 +3,6 @@ package levelup.desktop.java.ui;
 import javafx.fxml.FXMLLoader;
 import javafx.scene.Parent;
 import javafx.scene.Scene;
-//import javafx.scene.effect.GaussianBlur;
 import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
 import javafx.scene.layout.StackPane;
@@ -15,17 +14,15 @@ import java.net.URL;
 public class GerenciadorTelas {
 
     private static Stage stage;
-    private static StackPane root; // root do App
+    private static StackPane root;
     private static Scene cena;
 
-    // chamada uma vez no start do App
     public static void inicializar(Stage primaryStage, StackPane rootPane, Scene cenaPrincipal) {
         stage = primaryStage;
         root = rootPane;
         cena = cenaPrincipal;
     }
 
-    // ====== TELA DE LOGIN ======
     public static void mostrarTelaLogin() {
         try {
             FXMLLoader loader = new FXMLLoader(
@@ -33,8 +30,7 @@ public class GerenciadorTelas {
             );
             Parent conteudo = loader.load();
 
-            // carregar imagem de fundo com blur
-            URL bgUrl = App.class.getResource("/images/fundo16.jpg");
+            URL bgUrl = App.class.getResource("/images/fundo17.jpg");
             StackPane container;
 
             if (bgUrl != null) {
@@ -44,34 +40,25 @@ public class GerenciadorTelas {
                 bgView.setSmooth(true);
                 bgView.setCache(true);
 
-                // blur suave (você já tinha colocado 2)
-                //bgView.setEffect(new GaussianBlur(0));
-
-                // imagem acompanha o tamanho do root
                 bgView.fitWidthProperty().bind(root.widthProperty());
                 bgView.fitHeightProperty().bind(root.heightProperty());
 
-                // empilha: imagem borrada atrás + conteúdo por cima
                 container = new StackPane(bgView, conteudo);
             } else {
-                System.err.println("ATENÇÃO: Imagem /images/fundo1.jpg não encontrada no classpath.");
+                System.err.println("ATENÇÃO: Imagem /images/fundo17.jpg não encontrada no classpath.");
                 container = new StackPane(conteudo);
             }
 
-            // troca o conteúdo visível
             root.getChildren().setAll(container);
 
-            // carrega CSS específico do login
             cena.getStylesheets().setAll(
                     App.class.getResource("/css/login.css").toExternalForm()
             );
 
-            // tamanho da janela pra tela de login
             stage.setWidth(900);
             stage.setHeight(600);
             stage.centerOnScreen();
 
-            // arrastar janela pelo root
             final double[] xOffset = {0};
             final double[] yOffset = {0};
 
@@ -90,8 +77,6 @@ public class GerenciadorTelas {
         }
     }
 
-    // ====== FUTURA TELA PRINCIPAL (Dashboard) ======
-    // Quando você criar TelaPrincipal.fxml, é só implementar isso aqui:
     /*
     public static void mostrarTelaPrincipal() {
         try {

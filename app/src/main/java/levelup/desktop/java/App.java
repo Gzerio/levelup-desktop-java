@@ -17,33 +17,27 @@ public class App extends Application {
         double altura = 400;
         double raioJanela = 20;
 
-        // root inicial vazio; o GerenciadorTelas vai colocar a tela dentro dele
         StackPane root = new StackPane();
         Scene scene = new Scene(root, largura, altura);
 
-        // janela sem borda e fundo transparente
         stage.initStyle(StageStyle.TRANSPARENT);
         scene.setFill(Color.TRANSPARENT);
 
-        // clip arredondado pra cortar cantos
         Rectangle clip = new Rectangle(largura, altura);
-clip.setArcWidth(raioJanela * 2);   // 40
-clip.setArcHeight(raioJanela * 2);  // 40
+        clip.setArcWidth(raioJanela * 2);
+        clip.setArcHeight(raioJanela * 2);
 
-root.layoutBoundsProperty().addListener((obs, oldBounds, newBounds) -> {
-    clip.setWidth(newBounds.getWidth());
-    clip.setHeight(newBounds.getHeight());
-});
-root.setClip(clip);
+        root.layoutBoundsProperty().addListener((obs, oldBounds, newBounds) -> {
+            clip.setWidth(newBounds.getWidth());
+            clip.setHeight(newBounds.getHeight());
+        });
+        root.setClip(clip);
 
         stage.setScene(scene);
         stage.centerOnScreen();
         stage.show();
 
-        // inicializa gerenciador de telas
         GerenciadorTelas.inicializar(stage, root, scene);
-
-        // primeira tela -> login
         GerenciadorTelas.mostrarTelaLogin();
     }
 

@@ -7,12 +7,11 @@
 <?import javafx.scene.control.PasswordField?>
 <?import javafx.scene.control.Separator?>
 <?import javafx.scene.control.TextField?>
+<?import javafx.scene.image.ImageView?>
 <?import javafx.scene.layout.BorderPane?>
 <?import javafx.scene.layout.HBox?>
-<?import javafx.scene.layout.VBox?>
 <?import javafx.scene.layout.StackPane?>
-<?import javafx.scene.image.ImageView?>
-
+<?import javafx.scene.layout.VBox?>
 
 <BorderPane xmlns:fx="http://javafx.com/fxml"
             fx:controller="levelup.desktop.java.ui.TelaLoginController"
@@ -20,64 +19,51 @@
             prefWidth="900"
             prefHeight="500">
 
-    <!-- BARRA ESTILO macOS NO TOPO -->
-<top>
-    <!-- Container da barra com blur -->
-    <StackPane styleClass="mac-titlebar">
+    <top>
+        <StackPane styleClass="mac-titlebar">
+            <StackPane fx:id="macBarBlurLayer" styleClass="macbar-blur-layer">
+                <ImageView fx:id="macBarBgImage"
+                           preserveRatio="false"
+                           smooth="true"
+                           cache="true"/>
+            </StackPane>
 
-        <!-- CAMADA DE BLUR ATRÁS DA BARRA -->
-        <StackPane fx:id="macBarBlurLayer" styleClass="macbar-blur-layer">
-            <ImageView fx:id="macBarBgImage"
-                       preserveRatio="false"
-                       smooth="true"
-                       cache="true" />
+            <BorderPane styleClass="mac-titlebar-inner">
+                <center>
+                    <Label text="LEVELUP" styleClass="mac-title"/>
+                </center>
+
+                <right>
+                    <HBox spacing="6">
+                        <Button fx:id="botaoFechar"
+                                text="✕"
+                                onAction="#aoClicarFechar"
+                                focusTraversable="false"
+                                styleClass="window-button-close"/>
+                    </HBox>
+                </right>
+            </BorderPane>
         </StackPane>
+    </top>
 
-        <!-- CONTEÚDO DA BARRA (título + botão) -->
-        <BorderPane styleClass="mac-titlebar-inner">
-
-            <center>
-                <Label text="LEVELUP" styleClass="mac-title"/>
-            </center>
-
-            <right>
-                <HBox spacing="6">
-                    <Button fx:id="botaoFechar"
-                            text="✕"
-                            onAction="#aoClicarFechar"
-                            focusTraversable="false"
-                            styleClass="window-button-close"/>
-                </HBox>
-            </right>
-        </BorderPane>
-    </StackPane>
-</top>
-
-
-    <!-- CONTEÚDO CENTRAL -->
     <center>
-        <!-- StackPane central pra manter o card no meio da janela -->
         <StackPane BorderPane.alignment="CENTER" alignment="CENTER">
+            <StackPane styleClass="auth-card">
 
-            <!-- CARD ÚNICO (Cadastro + Login) -->
-           <StackPane styleClass="auth-card">
+                <StackPane fx:id="authCardBlurLayer" styleClass="auth-card-blur-layer">
+                    <ImageView fx:id="authCardBgImage"
+                               preserveRatio="false"
+                               smooth="true"
+                               cache="true"/>
+                </StackPane>
 
-    <StackPane fx:id="authCardBlurLayer" styleClass="auth-card-blur-layer">
-        <ImageView fx:id="authCardBgImage"
-                   preserveRatio="false"
-                   smooth="true"
-                   cache="true" />
-    </StackPane>
-                
                 <HBox alignment="CENTER"
-          spacing="40"
-          styleClass="auth-card-inner">
+                      spacing="40"
+                      styleClass="auth-card-inner">
                     <padding>
-                        <!-- padding interno do card -->
                         <Insets top="26" right="40" bottom="30" left="40"/>
                     </padding>
 
-                    <!-- LADO ESQUERDO: CADASTRO -->
                     <VBox alignment="TOP_CENTER"
                           styleClass="register-pane">
                         <Label text="Criar conta"
@@ -129,12 +115,10 @@
                         </Label>
                     </VBox>
 
-                    <!-- DIVISOR VERTICAL -->
                     <Separator orientation="VERTICAL"
                                prefHeight="260"
                                styleClass="login-divider"/>
 
-                    <!-- LADO DIREITO: LOGIN -->
                     <VBox alignment="TOP_CENTER"
                           styleClass="login-pane">
                         <Label text="Login"

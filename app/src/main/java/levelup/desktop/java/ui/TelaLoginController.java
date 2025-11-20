@@ -7,30 +7,19 @@ import javafx.scene.control.Button;
 import javafx.scene.control.Label;
 import javafx.scene.control.PasswordField;
 import javafx.scene.control.TextField;
+import javafx.scene.image.ImageView;
 import javafx.scene.layout.StackPane;
 import javafx.stage.Stage;
 import levelup.desktop.java.backend.AuthService;
 import levelup.desktop.java.backend.AuthService.AuthException;
 import levelup.desktop.java.sessao.SessaoUsuario;
-import javafx.geometry.Bounds;
-import javafx.geometry.Rectangle2D;
-import javafx.scene.SnapshotParameters;
-import javafx.scene.image.ImageView;
-import javafx.scene.image.WritableImage;
-import javafx.scene.Parent;
-import javafx.scene.effect.GaussianBlur;
-
-
-
-
-
+import levelup.desktop.java.ui.efeitos.EfeitoDesfoqueDeFundo;
 
 import java.io.IOException;
 import java.util.regex.Pattern;
 
 public class TelaLoginController {
 
-    // ====== LOGIN (lado direito) ======
     @FXML
     private TextField campoEmail;
 
@@ -40,11 +29,9 @@ public class TelaLoginController {
     @FXML
     private Button botaoEntrar;
 
-    // Label de erro geral (por enquanto usamos pros dois fluxos)
     @FXML
     private Label labelErro;
 
-    // ====== CADASTRO (lado esquerdo) ======
     @FXML
     private TextField campoNomeCadastro;
 
@@ -61,69 +48,26 @@ public class TelaLoginController {
     private Button botaoConfirmarCadastro;
 
     @FXML
-private StackPane authCardBlurLayer;
+    private StackPane authCardBlurLayer;
 
-@FXML
-private ImageView authCardBgImage;
+    @FXML
+    private ImageView authCardBgImage;
 
-
-
-    // Regex simples de e-mail
     private static final Pattern EMAIL_REGEX =
             Pattern.compile("^[^\\s@]+@[^\\s@]+\\.[^\\s@]+$");
 
-    // Service para chamar o backend
-    private final AuthService authService = new AuthService();
+    private final AuthService servicoAutenticacao = new AuthService();
 
-    // Flags pra não deixar os listeners reabilitarem botão enquanto request tá rolando
     private boolean loginEmAndamento = false;
     private boolean cadastroEmAndamento = false;
 
-    private void atualizarBlurDeRespeito() {
-    if (authCardBlurLayer == null || authCardBgImage == null) return;
-    if (authCardBlurLayer.getScene() == null) return;
-
-    Parent root = authCardBlurLayer.getScene().getRoot();
-
-    // o card inteiro (StackPane auth-card) é o pai da blur-layer
-    Node card = authCardBlurLayer.getParent();
-    if (card == null) return;
-
-    // esconde o card momentaneamente pra snapshot não pegar o próprio card
-    boolean visOriginal = card.isVisible();
-    card.setVisible(false);
-
-    // bounds do card na cena
-    Bounds cardSceneBounds = card.localToScene(card.getBoundsInLocal());
-    Bounds rootSceneBounds = root.localToScene(root.getBoundsInLocal());
-
-    double x = cardSceneBounds.getMinX() - rootSceneBounds.getMinX();
-    double y = cardSceneBounds.getMinY() - rootSceneBounds.getMinY();
-    double w = cardSceneBounds.getWidth();
-    double h = cardSceneBounds.getHeight();
-
-    if (w <= 0 || h <= 0) {
-        card.setVisible(visOriginal);
-        return;
+    private void atualizarDesfoqueDeFundo() {
+        EfeitoDesfoqueDeFundo.aplicarDesfoqueDeFundo(
+                authCardBlurLayer,
+                authCardBgImage,
+                48
+        );
     }
-
-    SnapshotParameters params = new SnapshotParameters();
-    params.setViewport(new Rectangle2D(x, y, w, h));
-
-    WritableImage snap = new WritableImage((int) Math.ceil(w), (int) Math.ceil(h));
-    WritableImage result = root.snapshot(params, snap);
-
-    // volta a mostrar o card
-    card.setVisible(visOriginal);
-
-    // joga o snapshot dentro da ImageView do fundo
-    authCardBgImage.setImage(result);
-
-    // aplica blur “grosso” no snapshot
-    GaussianBlur blur = new GaussianBlur(48); // testa 16/20/24 pra ver o ponto
-    authCardBgImage.setEffect(blur);
-}
-
 
     @FXML
     public void initialize() {
@@ -131,7 +75,6 @@ private ImageView authCardBgImage;
             labelErro.setText("");
         }
 
-        // Começa desabilitado até os campos ficarem ok
         if (botaoEntrar != null) {
             botaoEntrar.setDisable(true);
         }
@@ -139,13 +82,11 @@ private ImageView authCardBgImage;
             botaoConfirmarCadastro.setDisable(true);
         }
 
-        // Listeners para habilitar/desabilitar o botão de login
         if (campoEmail != null && campoSenha != null && botaoEntrar != null) {
             campoEmail.textProperty().addListener((obs, o, n) -> validarEstadoLogin());
             campoSenha.textProperty().addListener((obs, o, n) -> validarEstadoLogin());
         }
 
-        // Listeners para habilitar/desabilitar o botão de cadastro
         if (campoNomeCadastro != null &&
                 campoEmailCadastro != null &&
                 campoSenhaCadastro != null &&
@@ -157,10 +98,9 @@ private ImageView authCardBgImage;
             campoSenhaCadastro.textProperty().addListener((obs, o, n) -> validarEstadoCadastro());
             campoConfirmarSenhaCadastro.textProperty().addListener((obs, o, n) -> validarEstadoCadastro());
         }
-        Platform.runLater(this::atualizarBlurDeRespeito);
-    }
 
-    // ================== LOGIN ==================
+        Platform.runLater(this::atualizarDesfoqueDeFundo);
+    }
 
     @FXML
     public void aoClicarEntrar() {
@@ -181,19 +121,16 @@ private ImageView authCardBgImage;
             return;
         }
 
-        // Marca que estamos em request de login
         loginEmAndamento = true;
         if (botaoEntrar != null) {
             botaoEntrar.setDisable(true);
         }
         setErro("Login: autenticando, segura aí...");
 
-        // Thread para não travar a UI
         new Thread(() -> {
             try {
-                String token = authService.login(email, senha);
+                String token = servicoAutenticacao.login(email, senha);
 
-                // Guarda token na sessão
                 SessaoUsuario.setTokenJwt(token);
                 SessaoUsuario.setEmail(email);
 
@@ -201,10 +138,7 @@ private ImageView authCardBgImage;
                     loginEmAndamento = false;
                     limparErro();
                     setErro("Login ok! Depois a gente abre a tela principal, mizira. 😎");
-                    validarEstadoLogin(); // reavalia habilitação do botão
-
-                    // TODO: aqui você chama o GerenciadorTelas pra ir pra tela principal
-                    // GerenciadorTelas.mostrarTelaPrincipal();
+                    validarEstadoLogin();
                 });
             } catch (AuthException e) {
                 Platform.runLater(() -> {
@@ -225,7 +159,7 @@ private ImageView authCardBgImage;
 
     private void validarEstadoLogin() {
         if (botaoEntrar == null) return;
-        if (loginEmAndamento) return; // não mexe enquanto tá chamando backend
+        if (loginEmAndamento) return;
 
         String email = campoEmail != null ? campoEmail.getText().trim() : "";
         String senha = campoSenha != null ? campoSenha.getText() : "";
@@ -234,15 +168,12 @@ private ImageView authCardBgImage;
         botaoEntrar.setDisable(!camposPreenchidos);
     }
 
-    // ================== CADASTRO ==================
-
     @FXML
     public void aoClicarCadastrar() {
         limparErro();
 
         if (campoNomeCadastro == null) {
-            // fallback caso ainda não tenha implementado os campos de cadastro no FXML
-            setErro("Cadastro: tela ainda não está totalmente ligada no FXML. 😉");
+            setErro("Cadastro: tela ainda não está totalmente ligada no FXML.");
             return;
         }
 
@@ -251,28 +182,24 @@ private ImageView authCardBgImage;
         String senha = campoSenhaCadastro.getText();
         String confirmar = campoConfirmarSenhaCadastro.getText();
 
-        // Valida nome
         String erroNome = validarNome(nome);
         if (erroNome != null) {
             setErro("Cadastro: " + erroNome);
             return;
         }
 
-        // Valida e-mail
         String erroEmail = validarEmail(email);
         if (erroEmail != null) {
             setErro("Cadastro: " + erroEmail);
             return;
         }
 
-        // Valida senha
         String erroSenha = validarSenha(senha);
         if (erroSenha != null) {
             setErro("Cadastro: " + erroSenha);
             return;
         }
 
-        // Confirmação de senha
         if (confirmar == null || confirmar.isBlank()) {
             setErro("Cadastro: confirma a senha ali embaixo também.");
             return;
@@ -290,13 +217,12 @@ private ImageView authCardBgImage;
 
         new Thread(() -> {
             try {
-                authService.registrar(nome, email, senha);
+                servicoAutenticacao.registrar(nome, email, senha);
 
                 Platform.runLater(() -> {
                     cadastroEmAndamento = false;
                     setErro("Cadastro feito! Agora é só logar ali à direita. 🚀");
 
-                    // opcional: já preenche o login
                     if (campoEmail != null) campoEmail.setText(email);
                     if (campoSenha != null) campoSenha.setText(senha);
 
@@ -333,30 +259,23 @@ private ImageView authCardBgImage;
         botaoConfirmarCadastro.setDisable(!temAlgo);
     }
 
-    // ================== BOTÃO FECHAR JANELA ==================
-
     @FXML
     private void aoClicarFechar() {
-        Stage stage = (Stage) pegarAlgumNode().getScene().getWindow();
+        Stage stage = (Stage) obterAlgumNode().getScene().getWindow();
         stage.close();
     }
 
-    // pega algum node que com certeza existe pra achar o stage
-    private Node pegarAlgumNode() {
+    private Node obterAlgumNode() {
         if (campoEmail != null) return campoEmail;
         if (campoEmailCadastro != null) return campoEmailCadastro;
         if (botaoEntrar != null) return botaoEntrar;
         return botaoConfirmarCadastro;
     }
 
-    // ================== FLUXO "ESQUECI SENHA" ==================
-
     @FXML
     public void aoClicarEsqueciSenha() {
-        setErro("Fluxo de recuperação de senha ainda não foi implementado (mas a tela já tá pronta pra isso).");
+        setErro("Fluxo de recuperação de senha ainda não foi implementado.");
     }
-
-    // ================== HELPERS DE VALIDAÇÃO ==================
 
     private String validarNome(String nome) {
         if (nome == null || nome.isBlank()) {
@@ -389,17 +308,17 @@ private ImageView authCardBgImage;
             return "não usa espaço na senha, mizira.";
         }
 
-        boolean hasUpper = false;
-        boolean hasLower = false;
-        boolean hasDigit = false;
+        boolean temMaiuscula = false;
+        boolean temMinuscula = false;
+        boolean temDigito = false;
 
         for (char c : senha.toCharArray()) {
-            if (Character.isUpperCase(c)) hasUpper = true;
-            else if (Character.isLowerCase(c)) hasLower = true;
-            else if (Character.isDigit(c)) hasDigit = true;
+            if (Character.isUpperCase(c)) temMaiuscula = true;
+            else if (Character.isLowerCase(c)) temMinuscula = true;
+            else if (Character.isDigit(c)) temDigito = true;
         }
 
-        if (!hasUpper || !hasLower || !hasDigit) {
+        if (!temMaiuscula || !temMinuscula || !temDigito) {
             return "senha precisa ter letra maiúscula, minúscula e número.";
         }
 
