@@ -1,0 +1,163 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.geometry.Insets?>
+<?import javafx.scene.control.Button?>
+<?import javafx.scene.control.Hyperlink?>
+<?import javafx.scene.control.Label?>
+<?import javafx.scene.control.PasswordField?>
+<?import javafx.scene.control.Separator?>
+<?import javafx.scene.control.TextField?>
+<?import javafx.scene.layout.BorderPane?>
+<?import javafx.scene.layout.HBox?>
+<?import javafx.scene.layout.VBox?>
+
+<BorderPane xmlns:fx="http://javafx.com/fxml"
+            fx:controller="levelup.desktop.java.ui.TelaLoginController"
+            styleClass="glass-root"
+            prefWidth="900"
+            prefHeight="500">
+
+    <!-- BARRA ESTILO macOS NO TOPO -->
+    <top>
+        <BorderPane styleClass="mac-titlebar">
+
+            <!-- título -->
+            <center>
+                <Label text="LevelUp" styleClass="mac-title"/>
+            </center>
+
+            <!-- botões à direita -->
+            <right>
+                <HBox spacing="6">
+                    <!-- minimizar -->
+                    
+
+                    <!-- fechar -->
+                    <Button fx:id="botaoFechar"
+                            text="✕"
+                            onAction="#aoClicarFechar"
+                            focusTraversable="false"
+                            styleClass="window-button-close"/>
+                </HBox>
+            </right>
+        </BorderPane>
+    </top>
+
+    <!-- CONTEÚDO CENTRAL -->
+<center>
+    <HBox BorderPane.alignment="CENTER" alignment="CENTER" spacing="40">
+        <padding>
+            <Insets top="40" right="60" bottom="40" left="60"/>
+        </padding>
+
+        <!-- COLUNA ESQUERDA (CADASTRO) -->
+        <VBox styleClass="register-pane glass-card glass-login-card">
+
+            <Label text="Criar conta"
+                   styleClass="login-title"
+                   maxWidth="Infinity"
+                   alignment="CENTER"/>
+
+            <VBox spacing="10" alignment="CENTER">
+                <TextField fx:id="campoNomeCadastro"
+                           promptText="Nome"
+                           prefWidth="260"
+                           maxWidth="260"
+                           styleClass="login-field"/>
+
+                <TextField fx:id="campoEmailCadastro"
+                           promptText="E-mail"
+                           prefWidth="260"
+                           maxWidth="260"
+                           styleClass="login-field"/>
+
+                <PasswordField fx:id="campoSenhaCadastro"
+                               promptText="Senha"
+                               prefWidth="260"
+                               maxWidth="260"
+                               styleClass="login-field"/>
+
+                <PasswordField fx:id="campoConfirmarSenhaCadastro"
+                               promptText="Confirmar senha"
+                               prefWidth="260"
+                               maxWidth="260"
+                               styleClass="login-field"/>
+
+                <Button fx:id="botaoConfirmarCadastro"
+                        text="Cadastrar-se"
+                        onAction="#aoClicarCadastrar"
+                        prefWidth="260"
+                        maxWidth="260"
+                        styleClass="login-button"/>
+            </VBox>
+
+            <Label text="Já tem conta? Use o painel à direita para entrar."
+                   wrapText="true"
+                   prefWidth="260"
+                   maxWidth="260"
+                   styleClass="register-hint">
+                <VBox.margin>
+                    <Insets top="10"/>
+                </VBox.margin>
+            </Label>
+        </VBox>
+
+        <!-- DIVISOR VERTICAL -->
+        <VBox alignment="CENTER">
+            <Separator orientation="VERTICAL"
+                       prefHeight="260"
+                       styleClass="login-divider"/>
+        </VBox>
+
+        <!-- COLUNA DIREITA (LOGIN) -->
+        <VBox styleClass="login-pane glass-card glass-login-card">
+
+            <Label text="Login"
+                   styleClass="login-title"
+                   maxWidth="Infinity"
+                   alignment="CENTER"/>
+
+            <VBox spacing="12" alignment="CENTER">
+                <TextField fx:id="campoEmail"
+                           promptText="E-mail"
+                           prefWidth="260"
+                           maxWidth="260"
+                           styleClass="login-field"/>
+
+                <PasswordField fx:id="campoSenha"
+                               promptText="Senha"
+                               prefWidth="260"
+                               maxWidth="260"
+                               styleClass="login-field"/>
+
+                <Button fx:id="botaoEntrar"
+                        text="Entrar"
+                        onAction="#aoClicarEntrar"
+                        prefWidth="260"
+                        maxWidth="260"
+                        styleClass="login-button"/>
+            </VBox>
+
+            <Hyperlink text="Esqueci minha senha"
+                       onAction="#aoClicarEsqueciSenha"
+                       styleClass="login-link">
+                <VBox.margin>
+                    <Insets top="10"/>
+                </VBox.margin>
+            </Hyperlink>
+
+            <Label fx:id="labelErro"
+                   wrapText="true"
+                   prefWidth="260"
+                   maxWidth="260"
+                   styleClass="login-error">
+                <VBox.margin>
+                    <Insets top="8"/>
+                </VBox.margin>
+            </Label>
+        </VBox>
+    </HBox>
+</center>
+
+
+</BorderPane>
