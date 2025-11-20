@@ -7,12 +7,22 @@ import javafx.scene.control.Button;
 import javafx.scene.control.Label;
 import javafx.scene.control.PasswordField;
 import javafx.scene.control.TextField;
+import javafx.scene.layout.StackPane;
 import javafx.stage.Stage;
 import levelup.desktop.java.backend.AuthService;
 import levelup.desktop.java.backend.AuthService.AuthException;
 import levelup.desktop.java.sessao.SessaoUsuario;
+import javafx.geometry.Bounds;
+import javafx.geometry.Rectangle2D;
+import javafx.scene.SnapshotParameters;
+import javafx.scene.image.ImageView;
+import javafx.scene.image.WritableImage;
+import javafx.scene.Parent;
 import javafx.scene.effect.GaussianBlur;
-import javafx.scene.layout.StackPane;
+
+
+
+
 
 
 import java.io.IOException;
@@ -50,7 +60,12 @@ public class TelaLoginController {
     @FXML
     private Button botaoConfirmarCadastro;
 
-    
+    @FXML
+private StackPane authCardBlurLayer;
+
+@FXML
+private ImageView authCardBgImage;
+
 
     // Regex simples de e-mail
     private static final Pattern EMAIL_REGEX =
@@ -62,6 +77,52 @@ public class TelaLoginController {
     // Flags pra não deixar os listeners reabilitarem botão enquanto request tá rolando
     private boolean loginEmAndamento = false;
     private boolean cadastroEmAndamento = false;
+
+    private void atualizarBlurDeRespeito() {
+    if (authCardBlurLayer == null || authCardBgImage == null) return;
+    if (authCardBlurLayer.getScene() == null) return;
+
+    Parent root = authCardBlurLayer.getScene().getRoot();
+
+    // o card inteiro (StackPane auth-card) é o pai da blur-layer
+    Node card = authCardBlurLayer.getParent();
+    if (card == null) return;
+
+    // esconde o card momentaneamente pra snapshot não pegar o próprio card
+    boolean visOriginal = card.isVisible();
+    card.setVisible(false);
+
+    // bounds do card na cena
+    Bounds cardSceneBounds = card.localToScene(card.getBoundsInLocal());
+    Bounds rootSceneBounds = root.localToScene(root.getBoundsInLocal());
+
+    double x = cardSceneBounds.getMinX() - rootSceneBounds.getMinX();
+    double y = cardSceneBounds.getMinY() - rootSceneBounds.getMinY();
+    double w = cardSceneBounds.getWidth();
+    double h = cardSceneBounds.getHeight();
+
+    if (w <= 0 || h <= 0) {
+        card.setVisible(visOriginal);
+        return;
+    }
+
+    SnapshotParameters params = new SnapshotParameters();
+    params.setViewport(new Rectangle2D(x, y, w, h));
+
+    WritableImage snap = new WritableImage((int) Math.ceil(w), (int) Math.ceil(h));
+    WritableImage result = root.snapshot(params, snap);
+
+    // volta a mostrar o card
+    card.setVisible(visOriginal);
+
+    // joga o snapshot dentro da ImageView do fundo
+    authCardBgImage.setImage(result);
+
+    // aplica blur “grosso” no snapshot
+    GaussianBlur blur = new GaussianBlur(10); // testa 16/20/24 pra ver o ponto
+    authCardBgImage.setEffect(blur);
+}
+
 
     @FXML
     public void initialize() {
@@ -95,6 +156,7 @@ public class TelaLoginController {
             campoSenhaCadastro.textProperty().addListener((obs, o, n) -> validarEstadoCadastro());
             campoConfirmarSenhaCadastro.textProperty().addListener((obs, o, n) -> validarEstadoCadastro());
         }
+        Platform.runLater(this::atualizarBlurDeRespeito);
     }
 
     // ================== LOGIN ==================

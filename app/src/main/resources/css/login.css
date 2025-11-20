@@ -17,39 +17,36 @@
 /* ===================== CARD DE LOGIN/CADASTRO ===================== */
 
 .auth-card {
+    -fx-background-color: transparent;
     -fx-background-radius: 30;
     -fx-border-radius: 30;
 
-    /* fundo que você já estava usando */
-    -fx-background-insets: 0;
-    -fx-background-color: rgba(207, 207, 207, 0.151);
-
-    /* 2 camadas de borda:
-       1) borda base cinza
-       2) highlight só no topo e na direita */
     -fx-border-color:
-        rgba(122, 122, 122, 0.32),          /* borda base */
-        rgba(255, 255, 255, 0.199);          /* brilho */
-    
-    /* 1ª camada: borda normal em todos os lados
-       2ª camada: 2px no topo e direita, 0 em baixo/esquerda */
+        rgba(122, 122, 122, 0.32),
+        rgba(255, 255, 255, 0.199);
+
     -fx-border-width:
         1.4,
         2 2 0 0;
 
-    /* levemente “pra dentro” pra não brigar visualmente com a de baixo */
     -fx-border-insets:
         0,
         0.4;
 
-    -fx-padding: 26 38 30 38;
-    -fx-effect: dropshadow(gaussian, rgba(75, 75, 75, 0.151), 28, 0.55, 0, 0.151);
-
+    -fx-padding: 0;
     -fx-min-width: 600;
     -fx-max-width: 600;
     -fx-max-height: 380;
 }
+.auth-card-inner {
+    -fx-padding: 26 38 30 38;
+}
 
+.auth-card-blur-layer {
+    -fx-background-radius: 30;
+    -fx-background-insets: 0;
+    -fx-background-color: rgba(92, 92, 92, 0.411); /* leve leite por cima do snapshot */
+}
 
 /* COLUNAS INTERNAS */
 .register-pane,
@@ -119,7 +116,7 @@
 .login-button:disabled {
     -fx-background-color: rgba(56, 65, 78, 0.37); /* fundo cinza vidro */
     -fx-border-color: rgba(156, 163, 175, 0.7);   /* borda mais apagada */
-    -fx-text-fill: #9ca3af;                       /* texto apagado */
+    -fx-text-fill: #e4e4e4;                       /* texto apagado */
     -fx-opacity: 1;                               /* se não quiser ficar transparente */
     -fx-effect: null;                             /* opcional: sem sombra */
 }

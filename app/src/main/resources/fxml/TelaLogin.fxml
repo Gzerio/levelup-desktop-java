@@ -11,6 +11,8 @@
 <?import javafx.scene.layout.HBox?>
 <?import javafx.scene.layout.VBox?>
 <?import javafx.scene.layout.StackPane?>
+<?import javafx.scene.image.ImageView?>
+
 
 <BorderPane xmlns:fx="http://javafx.com/fxml"
             fx:controller="levelup.desktop.java.ui.TelaLoginController"
@@ -46,9 +48,18 @@
         <StackPane BorderPane.alignment="CENTER" alignment="CENTER">
 
             <!-- CARD ÚNICO (Cadastro + Login) -->
-            <StackPane styleClass="auth-card">
+           <StackPane styleClass="auth-card">
+
+    <StackPane fx:id="authCardBlurLayer" styleClass="auth-card-blur-layer">
+        <ImageView fx:id="authCardBgImage"
+                   preserveRatio="false"
+                   smooth="true"
+                   cache="true" />
+    </StackPane>
                 
-                <HBox alignment="CENTER" spacing="40">
+                <HBox alignment="CENTER"
+          spacing="40"
+          styleClass="auth-card-inner">
                     <padding>
                         <!-- padding interno do card -->
                         <Insets top="26" right="40" bottom="30" left="40"/>
