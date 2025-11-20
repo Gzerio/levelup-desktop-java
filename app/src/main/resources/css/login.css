@@ -11,7 +11,7 @@
     -fx-border-color: rgba(231, 231, 231, 0.685);
     -fx-border-width: 1.2;
     -fx-padding: 0;
-    -fx-effect: dropshadow(gaussian, rgba(0,0,0,0.9), 38, 0.45, 0, 14);
+    -fx-effect: dropshadow(gaussian, rgba(0, 0, 0, 0), 38, 0.45, 0, 14);
 }
 
 /* ===================== CARD DE LOGIN/CADASTRO ===================== */
@@ -23,11 +23,11 @@
 
     -fx-border-color:
         rgba(122, 122, 122, 0.32),
-        rgba(255, 255, 255, 0.199);
+        rgba(255, 255, 255, 0.575);
 
     -fx-border-width:
         1.4,
-        2 2 0 0;
+        2 2 2 2;
 
     -fx-border-insets:
         0,
@@ -37,15 +37,19 @@
     -fx-min-width: 600;
     -fx-max-width: 600;
     -fx-max-height: 380;
+    
 }
 .auth-card-inner {
     -fx-padding: 26 38 30 38;
+    
 }
 
 .auth-card-blur-layer {
     -fx-background-radius: 30;
     -fx-background-insets: 0;
     -fx-background-color: rgba(92, 92, 92, 0.411); /* leve leite por cima do snapshot */
+    
+    
 }
 
 /* COLUNAS INTERNAS */
@@ -212,8 +216,8 @@
 }
 
 .window-button-close:hover {
-    -fx-background-color: rgba(249, 115, 115, 0.15);
-    -fx-text-fill: #f97373;
+    -fx-background-color: rgba(211, 211, 211, 0.15);
+    -fx-text-fill: #e0e0e0;
     
 }
 

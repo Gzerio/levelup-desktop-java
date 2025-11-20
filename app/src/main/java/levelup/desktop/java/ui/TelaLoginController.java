@@ -67,6 +67,7 @@ private StackPane authCardBlurLayer;
 private ImageView authCardBgImage;
 
 
+
     // Regex simples de e-mail
     private static final Pattern EMAIL_REGEX =
             Pattern.compile("^[^\\s@]+@[^\\s@]+\\.[^\\s@]+$");
@@ -119,7 +120,7 @@ private ImageView authCardBgImage;
     authCardBgImage.setImage(result);
 
     // aplica blur “grosso” no snapshot
-    GaussianBlur blur = new GaussianBlur(10); // testa 16/20/24 pra ver o ponto
+    GaussianBlur blur = new GaussianBlur(48); // testa 16/20/24 pra ver o ponto
     authCardBgImage.setEffect(blur);
 }
 

@@ -21,15 +21,25 @@
             prefHeight="500">
 
     <!-- BARRA ESTILO macOS NO TOPO -->
-    <top>
-        <BorderPane styleClass="mac-titlebar">
+<top>
+    <!-- Container da barra com blur -->
+    <StackPane styleClass="mac-titlebar">
 
-            <!-- título -->
+        <!-- CAMADA DE BLUR ATRÁS DA BARRA -->
+        <StackPane fx:id="macBarBlurLayer" styleClass="macbar-blur-layer">
+            <ImageView fx:id="macBarBgImage"
+                       preserveRatio="false"
+                       smooth="true"
+                       cache="true" />
+        </StackPane>
+
+        <!-- CONTEÚDO DA BARRA (título + botão) -->
+        <BorderPane styleClass="mac-titlebar-inner">
+
             <center>
                 <Label text="LEVELUP" styleClass="mac-title"/>
             </center>
 
-            <!-- botões à direita -->
             <right>
                 <HBox spacing="6">
                     <Button fx:id="botaoFechar"
@@ -40,7 +50,9 @@
                 </HBox>
             </right>
         </BorderPane>
-    </top>
+    </StackPane>
+</top>
+
 
     <!-- CONTEÚDO CENTRAL -->
     <center>

@@ -34,7 +34,7 @@ public class GerenciadorTelas {
             Parent conteudo = loader.load();
 
             // carregar imagem de fundo com blur
-            URL bgUrl = App.class.getResource("/images/fundo11.jpg");
+            URL bgUrl = App.class.getResource("/images/fundo16.jpg");
             StackPane container;
 
             if (bgUrl != null) {
