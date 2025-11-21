@@ -1,9 +1,11 @@
 .root {
-    -fx-font-family: "Segoe UI", "Roboto", "Arial";
+    -fx-font-family: "Segoe UI", "Arial Rounded MT Bold";
     -fx-background-color: transparent;
 }
+
 /*  */
 .glass-root {
+    -fx-font-family: "Segoe UI", "Arial Rounded MT Bold";
     -fx-background-color: rgba(4, 0, 20, 0);
     -fx-background-radius: 20;
     -fx-border-radius: 20;
@@ -14,6 +16,7 @@
 }
 
 .auth-card {
+    -fx-font-family: "Segoe UI", "Arial Rounded MT Bold";
     -fx-background-color: transparent;
     -fx-background-radius: 30;
     -fx-border-radius: 30;
@@ -49,6 +52,7 @@
 }
 
 .login-title {
+    -fx-font-family: "Segoe UI", "Arial Rounded MT Bold";
     -fx-text-fill: #f9fafb;
     -fx-font-size: 20px;
     -fx-font-weight: bold;

@@ -53,8 +53,7 @@ public class TelaLoginController {
     @FXML
     private ImageView authCardBgImage;
 
-    private static final Pattern EMAIL_REGEX =
-            Pattern.compile("^[^\\s@]+@[^\\s@]+\\.[^\\s@]+$");
+    private static final Pattern EMAIL_REGEX = Pattern.compile("^[^\\s@]+@[^\\s@]+\\.[^\\s@]+$");
 
     private final AuthService servicoAutenticacao = new AuthService();
 
@@ -65,8 +64,7 @@ public class TelaLoginController {
         EfeitoDesfoqueDeFundo.aplicarDesfoqueDeFundo(
                 authCardBlurLayer,
                 authCardBgImage,
-                48
-        );
+                48);
     }
 
     @FXML
@@ -158,8 +156,10 @@ public class TelaLoginController {
     }
 
     private void validarEstadoLogin() {
-        if (botaoEntrar == null) return;
-        if (loginEmAndamento) return;
+        if (botaoEntrar == null)
+            return;
+        if (loginEmAndamento)
+            return;
 
         String email = campoEmail != null ? campoEmail.getText().trim() : "";
         String senha = campoSenha != null ? campoSenha.getText() : "";
@@ -223,8 +223,10 @@ public class TelaLoginController {
                     cadastroEmAndamento = false;
                     setErro("Cadastro feito! Agora é só logar ali à direita. ");
 
-                    if (campoEmail != null) campoEmail.setText(email);
-                    if (campoSenha != null) campoSenha.setText(senha);
+                    if (campoEmail != null)
+                        campoEmail.setText(email);
+                    if (campoSenha != null)
+                        campoSenha.setText(senha);
 
                     validarEstadoCadastro();
                     validarEstadoLogin();
@@ -247,8 +249,10 @@ public class TelaLoginController {
     }
 
     private void validarEstadoCadastro() {
-        if (botaoConfirmarCadastro == null) return;
-        if (cadastroEmAndamento) return;
+        if (botaoConfirmarCadastro == null)
+            return;
+        if (cadastroEmAndamento)
+            return;
 
         String nome = campoNomeCadastro != null ? campoNomeCadastro.getText().trim() : "";
         String email = campoEmailCadastro != null ? campoEmailCadastro.getText().trim() : "";
@@ -266,9 +270,12 @@ public class TelaLoginController {
     }
 
     private Node obterAlgumNode() {
-        if (campoEmail != null) return campoEmail;
-        if (campoEmailCadastro != null) return campoEmailCadastro;
-        if (botaoEntrar != null) return botaoEntrar;
+        if (campoEmail != null)
+            return campoEmail;
+        if (campoEmailCadastro != null)
+            return campoEmailCadastro;
+        if (botaoEntrar != null)
+            return botaoEntrar;
         return botaoConfirmarCadastro;
     }
 
@@ -313,9 +320,12 @@ public class TelaLoginController {
         boolean temDigito = false;
 
         for (char c : senha.toCharArray()) {
-            if (Character.isUpperCase(c)) temMaiuscula = true;
-            else if (Character.isLowerCase(c)) temMinuscula = true;
-            else if (Character.isDigit(c)) temDigito = true;
+            if (Character.isUpperCase(c))
+                temMaiuscula = true;
+            else if (Character.isLowerCase(c))
+                temMinuscula = true;
+            else if (Character.isDigit(c))
+                temDigito = true;
         }
 
         if (!temMaiuscula || !temMinuscula || !temDigito) {

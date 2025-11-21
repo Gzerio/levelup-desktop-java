@@ -1,8 +1,7 @@
 package levelup.desktop.java.ui.efeitos;
-//
+
 import javafx.geometry.Bounds;
 import javafx.geometry.Rectangle2D;
-import javafx.scene.Node;
 import javafx.scene.Parent;
 import javafx.scene.SnapshotParameters;
 import javafx.scene.effect.GaussianBlur;
@@ -12,28 +11,32 @@ import javafx.scene.layout.StackPane;
 
 public class EfeitoDesfoqueDeFundo {
 
-    public static void aplicarDesfoqueDeFundo(StackPane camadaDesfoque, ImageView imagemFundo, double raio) {
-        if (camadaDesfoque == null || imagemFundo == null) return;
-        if (camadaDesfoque.getScene() == null) return;
+    public static void aplicarDesfoqueDeFundo(StackPane camadaDesfoque,
+            ImageView imagemFundo,
+            double raio) {
+        if (camadaDesfoque == null || imagemFundo == null)
+            return;
+        if (camadaDesfoque.getScene() == null)
+            return;
 
         Parent root = camadaDesfoque.getScene().getRoot();
 
-        Node card = camadaDesfoque.getParent();
-        if (card == null) return;
+        boolean visOriginal = camadaDesfoque.isVisible();
+        camadaDesfoque.setVisible(false);
 
-        boolean visOriginal = card.isVisible();
-        card.setVisible(false);
-
-        Bounds limitesCardCena = card.localToScene(card.getBoundsInLocal());
+        Bounds limitesBlurCena = camadaDesfoque.localToScene(camadaDesfoque.getBoundsInLocal());
         Bounds limitesRootCena = root.localToScene(root.getBoundsInLocal());
 
-        double x = limitesCardCena.getMinX() - limitesRootCena.getMinX();
-        double y = limitesCardCena.getMinY() - limitesRootCena.getMinY();
-        double largura = limitesCardCena.getWidth();
-        double altura = limitesCardCena.getHeight();
+        // margem pra dentro pra não vazar nas bordas
+        double margin = 2.0;
+
+        double x = limitesBlurCena.getMinX() - limitesRootCena.getMinX() + margin;
+        double y = limitesBlurCena.getMinY() - limitesRootCena.getMinY() + margin;
+        double largura = limitesBlurCena.getWidth() - margin * 2;
+        double altura = limitesBlurCena.getHeight() - margin * 2;
 
         if (largura <= 0 || altura <= 0) {
-            card.setVisible(visOriginal);
+            camadaDesfoque.setVisible(visOriginal);
             return;
         }
 
@@ -42,12 +45,11 @@ public class EfeitoDesfoqueDeFundo {
 
         WritableImage imagemDestino = new WritableImage(
                 (int) Math.ceil(largura),
-                (int) Math.ceil(altura)
-        );
+                (int) Math.ceil(altura));
 
         WritableImage snapshot = root.snapshot(parametros, imagemDestino);
 
-        card.setVisible(visOriginal);
+        camadaDesfoque.setVisible(visOriginal);
 
         if (snapshot == null) {
             return;

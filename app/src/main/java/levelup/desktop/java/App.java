@@ -1,5 +1,5 @@
 package levelup.desktop.java;
-//
+
 import javafx.application.Application;
 import javafx.scene.Scene;
 import javafx.scene.layout.StackPane;
@@ -38,7 +38,8 @@ public class App extends Application {
         stage.show();
 
         GerenciadorTelas.inicializar(stage, root, scene);
-        GerenciadorTelas.mostrarTelaLogin();
+        GerenciadorTelas.mostrarTelaPrincipal();
+        // GerenciadorTelas.mostrarTelaLogin();
     }
 
     public static void main(String[] args) {

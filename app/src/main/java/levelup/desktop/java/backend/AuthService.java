@@ -11,7 +11,6 @@ import java.util.regex.Pattern;
 
 public class AuthService {
 
-
     private static final String BASE_URL = "http://localhost:8080";
 
     private final HttpClient httpClient = HttpClient.newHttpClient();
@@ -30,8 +29,8 @@ public class AuthService {
                 .POST(HttpRequest.BodyPublishers.ofString(json, StandardCharsets.UTF_8))
                 .build();
 
-        HttpResponse<String> response =
-                httpClient.send(request, HttpResponse.BodyHandlers.ofString(StandardCharsets.UTF_8));
+        HttpResponse<String> response = httpClient.send(request,
+                HttpResponse.BodyHandlers.ofString(StandardCharsets.UTF_8));
 
         int status = response.statusCode();
         String body = response.body();
@@ -64,8 +63,8 @@ public class AuthService {
                 .POST(HttpRequest.BodyPublishers.ofString(json, StandardCharsets.UTF_8))
                 .build();
 
-        HttpResponse<String> response =
-                httpClient.send(request, HttpResponse.BodyHandlers.ofString(StandardCharsets.UTF_8));
+        HttpResponse<String> response = httpClient.send(request,
+                HttpResponse.BodyHandlers.ofString(StandardCharsets.UTF_8));
 
         int status = response.statusCode();
 
@@ -91,7 +90,8 @@ public class AuthService {
     }
 
     private String escapeJson(String valor) {
-        if (valor == null) return "";
+        if (valor == null)
+            return "";
         return valor
                 .replace("\\", "\\\\")
                 .replace("\"", "\\\"");

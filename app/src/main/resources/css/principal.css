@@ -1,0 +1,228 @@
+.principal-root {
+    -fx-font-family: "Segoe UI", "Arial Rounded MT Bold";
+    -fx-background-color: transparent;
+    -fx-background-radius: 20;
+    -fx-border-radius: 20;
+    -fx-border-color: rgb(148, 163, 184);
+    -fx-border-width: 2;
+    -fx-padding: 0;
+}
+
+
+.app-topbar {
+    -fx-background-color: transparent;
+    -fx-background-radius: 20 20 0 0;
+    -fx-border-radius: 20 20 0 0;
+    -fx-border-color: rgba(155, 155, 155, 0.438);
+    -fx-border-width: 0 0 2 0;
+}
+
+.topbar-blur-layer {
+    -fx-background-radius: 20 20 0 0;
+    -fx-background-insets: 0;
+    -fx-background-color: rgba(12, 12, 12, 0.38);
+}
+
+.topbar-inner {
+    -fx-background-color: transparent;
+}
+
+
+.app-titlebar-inner {
+    -fx-background-color: transparent;
+    -fx-padding: 8 16 6 18;
+    -fx-spacing: 10;
+}
+
+.app-title {
+    -fx-text-fill: #f9fafb;
+    -fx-font-size: 18px;
+    -fx-font-weight: bold;
+}
+
+
+
+.window-button-minimize,
+.window-button-close {
+    -fx-background-color: transparent;
+    -fx-text-fill: #ffffff;
+    -fx-font-size: 15px;
+    -fx-font-weight: bold;
+    -fx-background-radius: 999;
+    -fx-padding: 2 12 2 12;
+    -fx-cursor: hand;
+}
+
+.window-button-minimize:hover,
+.window-button-close:hover {
+    -fx-background-color: rgba(148, 163, 184, 0.25);
+    -fx-text-fill: #e5e7eb;
+}
+
+
+.app-navbar-inner {
+    -fx-background-color: transparent;
+    -fx-padding: 4 20 0 20;
+    -fx-spacing: 28;
+}
+
+
+
+.nav-button {
+    -fx-font-family: "Segoe UI", "Arial Rounded MT Bold";
+    -fx-background-color: transparent;
+    -fx-background-radius: 0;
+    -fx-border-radius: 0;
+    -fx-text-fill: rgba(229, 231, 235, 0.7);
+    -fx-font-size: 15px;
+    -fx-font-weight: normal;
+    -fx-padding: 7 12 10 12;
+    -fx-border-color: transparent;
+    -fx-border-width: 0 0 3 0;
+}
+
+.nav-button:hover {
+    -fx-text-fill: rgba(249, 250, 251, 0.9);
+}
+
+.nav-button-ativo {
+    -fx-text-fill: #f9fafb;
+    -fx-font-weight: bold;
+    -fx-border-color: transparent transparent #f9fafb transparent;
+    -fx-border-width: 0 0 2 0;
+}
+
+.nav-button:pressed {
+    -fx-opacity: 0.85;
+}
+
+
+
+.principal-conteudo {
+    -fx-padding: 18;
+}
+
+.principal-placeholder {
+    -fx-text-fill: #e5e7eb;
+    -fx-font-size: 14px;
+}
+
+.topbar-divider {
+    -fx-pref-height: 1;
+    -fx-min-height: 2;
+    -fx-max-height: 1;
+    -fx-border-color: rgba(155, 155, 155, 0.438);
+    -fx-opacity: 0.85;
+}
+
+
+
+.inicio-card-root {
+    -fx-background-color: transparent;
+    -fx-background-radius: 24;
+    -fx-border-radius: 24;
+    -fx-max-width: 300;
+    -fx-max-height: 230;
+    -fx-border-color:
+        rgba(248, 250, 252, 0.349)
+        rgba(248, 250, 252, 0.26)
+        rgba(248, 250, 252, 0.26)
+        rgba(248, 250, 252, 0.349);
+
+    -fx-border-width: 2 1 1 2;
+}
+
+.inicio-card-blur-layer {
+    -fx-background-radius: 24;
+    -fx-background-insets: 0;
+    -fx-background-color: rgba(10, 10, 15, 0.25);
+}
+
+.inicio-card-inner {
+    -fx-background-color: transparent;
+    -fx-padding: 16 22 18 22;
+    -fx-spacing: 10;
+}
+
+.inicio-card-greeting {
+    -fx-text-fill: #e5e7eb;
+    -fx-font-size: 15px;
+    -fx-opacity: 0.9;
+}
+
+
+
+.inicio-card-main-icon {
+
+    -fx-font-size: 28px;
+}
+
+.inicio-card-time {
+    -fx-text-fill: #f9fafb;
+    -fx-font-size: 28px;
+    -fx-font-weight: bold;
+    -fx-translate-x: 130;
+}
+
+.inicio-card-date {
+    -fx-text-fill: rgba(209, 213, 219, 0.95);
+    -fx-font-size: 11px;
+    -fx-translate-x: 140;
+}
+
+.inicio-card-summary {
+    -fx-text-fill: #f9fafb;
+    -fx-font-size: 12px;
+    -fx-alignment: TOP_RIGHT;
+}
+
+
+
+.inicio-card-forecast {
+    -fx-padding: 6 0 0 0;
+}
+
+.forecast-row {
+    -fx-spacing: 8;
+}
+
+.forecast-day {
+    -fx-text-fill: #f9fafb;
+    -fx-font-size: 11px;
+    -fx-min-width: 32;
+}
+
+.forecast-temp-min {
+    -fx-text-fill: #e5e7eb;
+    -fx-font-size: 11px;
+    -fx-min-width: 36;
+}
+
+.forecast-temp-max {
+    -fx-text-fill: #f9fafb;
+    -fx-font-size: 11px;
+    -fx-min-width: 38;
+    -fx-alignment: CENTER_RIGHT;
+}
+
+
+
+.forecast-bar-track {
+    -fx-background-color: rgba(238, 240, 243, 0.12);
+    -fx-background-radius: 999;
+    -fx-padding: 2;
+    -fx-pref-width: 100;
+    -fx-min-width: 100;
+    -fx-max-width: 100;
+}
+
+
+
+
+.forecast-bar-fill {
+    -fx-background-radius: 999;
+    -fx-min-height: 10;
+    -fx-max-height: 10;
+    -fx-background-color: linear-gradient(to right,
+            #22c1c3, #facc15, #fb923c);
+}

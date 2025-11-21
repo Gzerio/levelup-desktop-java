@@ -23,44 +23,42 @@ public class GerenciadorTelas {
         cena = cenaPrincipal;
     }
 
+    private static StackPane criarContainerComFundo(Parent conteudo) {
+        URL bgUrl = App.class.getResource("/images/fundo5.jpg");
+        StackPane container;
+        if (bgUrl != null) {
+            Image bgImage = new Image(bgUrl.toExternalForm());
+            ImageView bgView = new ImageView(bgImage);
+            bgView.setPreserveRatio(false);
+            bgView.setSmooth(true);
+            bgView.setCache(true);
+            bgView.fitWidthProperty().bind(root.widthProperty());
+            bgView.fitHeightProperty().bind(root.heightProperty());
+            container = new StackPane(bgView, conteudo);
+        } else {
+            container = new StackPane(conteudo);
+        }
+        return container;
+    }
+
     public static void mostrarTelaLogin() {
         try {
             FXMLLoader loader = new FXMLLoader(
-                    App.class.getResource("/fxml/TelaLogin.fxml")
-            );
+                    App.class.getResource("/fxml/TelaLogin.fxml"));
             Parent conteudo = loader.load();
-
-            URL bgUrl = App.class.getResource("/images/fundo17.jpg");
-            StackPane container;
-
-            if (bgUrl != null) {
-                Image bgImage = new Image(bgUrl.toExternalForm());
-                ImageView bgView = new ImageView(bgImage);
-                bgView.setPreserveRatio(false);
-                bgView.setSmooth(true);
-                bgView.setCache(true);
-
-                bgView.fitWidthProperty().bind(root.widthProperty());
-                bgView.fitHeightProperty().bind(root.heightProperty());
-
-                container = new StackPane(bgView, conteudo);
-            } else {
-                System.err.println("ATENÇÃO: Imagem não encontrada no classpath.");
-                container = new StackPane(conteudo);
-            }
+            StackPane container = criarContainerComFundo(conteudo);
 
             root.getChildren().setAll(container);
 
             cena.getStylesheets().setAll(
-                    App.class.getResource("/css/login.css").toExternalForm()
-            );
+                    App.class.getResource("/css/login.css").toExternalForm());
 
             stage.setWidth(900);
             stage.setHeight(600);
             stage.centerOnScreen();
 
-            final double[] xOffset = {0};
-            final double[] yOffset = {0};
+            final double[] xOffset = { 0 };
+            final double[] yOffset = { 0 };
 
             root.setOnMousePressed(event -> {
                 xOffset[0] = event.getSceneX();
@@ -77,26 +75,42 @@ public class GerenciadorTelas {
         }
     }
 
-    /*
     public static void mostrarTelaPrincipal() {
         try {
             FXMLLoader loader = new FXMLLoader(
-                    App.class.getResource("/fxml/TelaPrincipal.fxml")
-            );
+                    App.class.getResource("/fxml/TelaPrincipal.fxml"));
             Parent conteudo = loader.load();
 
-            root.getChildren().setAll(conteudo);
+            URL bgUrl = App.class.getResource("/images/fundo4.jpg");
+            StackPane container;
+
+            if (bgUrl != null) {
+                Image bgImage = new Image(bgUrl.toExternalForm());
+                ImageView bgView = new ImageView(bgImage);
+                bgView.setPreserveRatio(false);
+                bgView.setSmooth(true);
+                bgView.setCache(true);
+
+                bgView.fitWidthProperty().bind(root.widthProperty());
+                bgView.fitHeightProperty().bind(root.heightProperty());
+
+                container = new StackPane(bgView, conteudo);
+            } else {
+                container = new StackPane(conteudo);
+            }
+
+            root.getChildren().setAll(container);
 
             cena.getStylesheets().setAll(
-                    App.class.getResource("/css/principal.css").toExternalForm()
-            );
+                    App.class.getResource("/css/principal.css").toExternalForm());
 
             stage.setWidth(1100);
-            stage.setHeight(700);
+            stage.setHeight(650);
             stage.centerOnScreen();
+
         } catch (Exception e) {
             e.printStackTrace();
         }
     }
-    */
+
 }

@@ -11,6 +11,8 @@ dependencies {
 
     testImplementation libs.junit.jupiter
     testRuntimeOnly 'org.junit.platform:junit-platform-launcher'
+    implementation 'com.fasterxml.jackson.core:jackson-databind:2.17.1'
+
 }
 
 java {
@@ -28,6 +30,9 @@ javafx {
 
 application {
     mainClass = 'levelup.desktop.java.App'
+    applicationDefaultJvmArgs = [
+        "-DOPENWEATHER_API_KEY=${OPENWEATHER_API_KEY}"
+    ]
 }
 
 tasks.named('test') {
