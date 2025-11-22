@@ -81,7 +81,7 @@ public class GerenciadorTelas {
                     App.class.getResource("/fxml/TelaPrincipal.fxml"));
             Parent conteudo = loader.load();
 
-            URL bgUrl = App.class.getResource("/images/fundo4.jpg");
+            URL bgUrl = App.class.getResource("/images/fundo11.jpg");
             StackPane container;
 
             if (bgUrl != null) {

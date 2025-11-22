@@ -1,0 +1,108 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.scene.control.Button?>
+<?import javafx.scene.control.Label?>
+<?import javafx.scene.control.Slider?>
+<?import javafx.scene.image.ImageView?>
+<?import javafx.scene.layout.HBox?>
+<?import javafx.scene.layout.StackPane?>
+<?import javafx.scene.layout.VBox?>
+
+
+<StackPane xmlns:fx="http://javafx.com/fxml"
+       fx:id="cardPlayerRoot"
+       styleClass="player-card-root">
+
+       <StackPane fx:id="cardPlayerBlurLayer"
+              styleClass="player-card-blur-layer"
+              mouseTransparent="true">
+              <ImageView fx:id="cardPlayerBgImage"
+                     preserveRatio="false"
+                     smooth="true"
+                     cache="true"
+                     mouseTransparent="true" />
+       </StackPane>
+
+       <VBox styleClass="inicio-card-inner"
+              spacing="6"
+       >
+
+              <VBox spacing="2">
+                     <Label text="Player"
+                            styleClass="inicio-card-greeting" />
+                     <Label text="Música para focar"
+                            styleClass="player-subtitle" />
+              </VBox>
+
+              <StackPane fx:id="capaContainer" prefWidth="100"
+                     prefHeight="130"
+                     styleClass="player-cover"
+              >
+                     <ImageView fx:id="imageCapaPlaylist"
+                            fitWidth="200"
+                            fitHeight="195"
+                            preserveRatio="true"
+                            smooth="true"
+                            cache="true" />
+              </StackPane>
+
+
+              <VBox spacing="2">
+                     <Label fx:id="labelNomePlaylist"
+                            text="Lofi Focus"
+                            styleClass="player-title" />
+                     <Label fx:id="labelDescricaoPlaylist"
+                            text="Rádio Animu – stream"
+                            styleClass="player-subtitle" />
+              </VBox>
+
+              <HBox alignment="CENTER"
+                     spacing="12">
+                     <Button fx:id="btnAnterior"
+                            text="⏮"
+                            disable="false"
+                            styleClass="player-icon-btn" />
+                     <Button fx:id="btnPlayPause"
+                            text="▶"
+                            styleClass="player-main-btn"
+                     />
+                     <Button fx:id="btnProxima"
+                            text="⏭"
+                            disable="false"
+                            styleClass="player-icon-btn" />
+              </HBox>
+
+              <HBox spacing="6"
+                     alignment="CENTER_LEFT" maxWidth="240">
+                     <Label fx:id="labelTempoAtual"
+                            text="0:00"
+                            styleClass="player-time-label" />
+
+                     <Slider fx:id="sliderProgresso"
+                            min="0"
+                            max="3600"
+                            value="0"
+                            disable="true"
+                            styleClass="player-progress"
+                            maxWidth="180"
+                     />
+
+                     <Label fx:id="labelTempoTotal"
+                            text="00:00"
+                            styleClass="player-time-label" />
+              </HBox>
+
+              <HBox spacing="8"
+                     alignment="CENTER_LEFT"
+                     style="-fx-padding: 0 0 0 5;">
+                     <Label text="🔊"
+                            styleClass="player-volume-icon" />
+                     <Slider fx:id="sliderVolume"
+                            min="0"
+                            max="1"
+                            value="0.6" />
+              </HBox>
+
+       </VBox>
+
+</StackPane>

@@ -8,6 +8,7 @@ import javafx.geometry.Pos;
 import javafx.scene.Node;
 import javafx.scene.control.Button;
 import javafx.scene.control.Label;
+import javafx.scene.control.Slider;
 import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
 import javafx.scene.layout.HBox;
@@ -19,17 +20,17 @@ import levelup.desktop.java.App;
 import levelup.desktop.java.backend.WeatherService;
 import levelup.desktop.java.backend.WeatherService.WeatherInfo;
 import levelup.desktop.java.ui.efeitos.EfeitoDesfoqueDeFundo;
+import levelup.desktop.java.ui.player.PlayerMusicaService;
+import javafx.scene.shape.Rectangle;
 
 import java.time.LocalDate;
 import java.time.LocalTime;
 import java.time.format.DateTimeFormatter;
 import java.util.List;
 import java.util.Locale;
+import javafx.event.ActionEvent;
 
 public class TelaPrincipalController {
-
-    @FXML
-    private ImageView imagemClimaAtual;
 
     @FXML
     private Button botaoMinimizar;
@@ -62,6 +63,9 @@ public class TelaPrincipalController {
     private HBox barraTituloRoot;
 
     @FXML
+    private HBox inicioContainer;
+
+    @FXML
     private StackPane cardInicioRoot;
 
     @FXML
@@ -69,6 +73,9 @@ public class TelaPrincipalController {
 
     @FXML
     private ImageView cardInicioBgImage;
+
+    @FXML
+    private ImageView imagemClimaAtual;
 
     @FXML
     private Label labelSaudacaoUsuario;
@@ -84,13 +91,75 @@ public class TelaPrincipalController {
 
     @FXML
     private Label labelDia1, labelDia2, labelDia3, labelDia4;
+
     @FXML
     private Label labelMin1, labelMin2, labelMin3, labelMin4;
+
     @FXML
     private Label labelMax1, labelMax2, labelMax3, labelMax4;
 
     @FXML
     private Region barraDia1, barraDia2, barraDia3, barraDia4;
+
+    @FXML
+    private StackPane cardPlayerRoot;
+
+    @FXML
+    private StackPane cardPlayerBlurLayer;
+
+    @FXML
+    private ImageView cardPlayerBgImage;
+
+    @FXML
+    private Label labelNomePlaylist;
+
+    @FXML
+    private Label labelDescricaoPlaylist;
+
+    @FXML
+    private Button btnPlayPause;
+
+    @FXML
+    private Button btnAnterior;
+
+    @FXML
+    private Button btnProxima;
+
+    @FXML
+    private Slider sliderVolume;
+
+    @FXML
+    private Slider sliderProgresso;
+    @FXML
+    private StackPane playerCardInclude;
+
+    @FXML
+    private Label labelTempoAtual;
+
+    @FXML
+    private Label labelTempoTotal;
+
+    @FXML
+    private ImageView imageCapaPlaylist;
+    @FXML
+    private StackPane appTopbar;
+
+    private void aplicarClipNaCapa() {
+        if (imageCapaPlaylist == null)
+            return;
+
+        Rectangle clip = new Rectangle();
+
+        clip.setArcWidth(24);
+        clip.setArcHeight(24);
+
+        imageCapaPlaylist.layoutBoundsProperty().addListener((obs, oldB, newB) -> {
+            clip.setWidth(newB.getWidth());
+            clip.setHeight(newB.getHeight());
+        });
+
+        imageCapaPlaylist.setClip(clip);
+    }
 
     private double offsetX;
     private double offsetY;
@@ -99,25 +168,124 @@ public class TelaPrincipalController {
 
     private final WeatherService weatherService = new WeatherService();
 
+    private final PlayerMusicaService playerMusicaService = new PlayerMusicaService();
+
+    private void atualizarUIFaixaAtual() {
+        PlayerMusicaService.FaixaLofi faixa = playerMusicaService.getFaixaAtual();
+        if (faixa == null)
+            return;
+
+        if (labelNomePlaylist != null) {
+            labelNomePlaylist.setText(faixa.getTitulo());
+        }
+        if (labelDescricaoPlaylist != null) {
+            labelDescricaoPlaylist.setText(faixa.getDescricao());
+        }
+
+        if (imageCapaPlaylist != null) {
+            var urlCapa = App.class.getResource(faixa.getCaminhoCapa());
+            if (urlCapa != null) {
+                Image img = new Image(urlCapa.toExternalForm(), 220, 160, true, true);
+                imageCapaPlaylist.setImage(img);
+            } else {
+                System.out.println("[PLAYER] Capa não encontrada: " + faixa.getCaminhoCapa());
+            }
+        }
+    }
+
+    private void inicializarPlayerCardRefsSeNecessario() {
+        if (playerCardInclude == null) {
+            System.out.println("[DEBUG] playerCardInclude é null (fx:include não achado)");
+            return;
+        }
+
+        if (cardPlayerRoot != null && cardPlayerBlurLayer != null && cardPlayerBgImage != null) {
+            return;
+        }
+
+        cardPlayerRoot = (StackPane) playerCardInclude.lookup("#cardPlayerRoot");
+        cardPlayerBlurLayer = (StackPane) playerCardInclude.lookup("#cardPlayerBlurLayer");
+        cardPlayerBgImage = (ImageView) playerCardInclude.lookup("#cardPlayerBgImage");
+
+        labelNomePlaylist = (Label) playerCardInclude.lookup("#labelNomePlaylist");
+        labelDescricaoPlaylist = (Label) playerCardInclude.lookup("#labelDescricaoPlaylist");
+        btnPlayPause = (Button) playerCardInclude.lookup("#btnPlayPause");
+        sliderVolume = (Slider) playerCardInclude.lookup("#sliderVolume");
+        sliderProgresso = (Slider) playerCardInclude.lookup("#sliderProgresso");
+
+        imageCapaPlaylist = (ImageView) playerCardInclude.lookup("#imageCapaPlaylist");
+        btnAnterior = (Button) playerCardInclude.lookup("#btnAnterior");
+        btnProxima = (Button) playerCardInclude.lookup("#btnProxima");
+        labelTempoAtual = (Label) playerCardInclude.lookup("#labelTempoAtual");
+        labelTempoTotal = (Label) playerCardInclude.lookup("#labelTempoTotal");
+        imageCapaPlaylist = (ImageView) playerCardInclude.lookup("#imageCapaPlaylist");
+
+        System.out.println("[DEBUG] cardPlayerRoot       = " + cardPlayerRoot);
+        System.out.println("[DEBUG] cardPlayerBlurLayer = " + cardPlayerBlurLayer);
+        System.out.println("[DEBUG] cardPlayerBgImage   = " + cardPlayerBgImage);
+    }
+
     @FXML
     public void initialize() {
-        marcarBotaoAtivo(botaoInicio);
+        System.out.println("=== DEBUG INICIAL ===");
+        System.out.println("botaoInicio  = " + botaoInicio);
+        System.out.println("botaoHabitos = " + botaoHabitos);
+        System.out.println("botaoEstudos = " + botaoEstudos);
+        System.out.println("botaoMetas   = " + botaoMetas);
 
-        Platform.runLater(() -> {
-
-            EfeitoDesfoqueDeFundo.aplicarDesfoqueDeFundo(
-                    barraTopoBlurLayer,
-                    barraTopoBgImage,
-                    40);
-
-            configurarArrasteJanela(barraTituloRoot);
-            configurarSaudacao();
-            iniciarRelogio();
-
-            mostrarTelaInicio();
-
-            buscarClimaAsync();
+        botaoHabitos.setOnMouseClicked(e -> {
+            System.out.println("[DEBUG] MouseClicked direto no botaoHabitos: " + e);
         });
+
+        marcarBotaoAtivo(botaoInicio);
+        configurarArrasteJanela(barraTituloRoot);
+        configurarSaudacao();
+        iniciarRelogio();
+        mostrarTelaInicio();
+
+        if (conteudoCentral != null) {
+            conteudoCentral.sceneProperty().addListener((obs, cenaAntiga, cenaNova) -> {
+                if (cenaNova != null) {
+
+                    cenaNova.addEventFilter(javafx.scene.input.MouseEvent.MOUSE_PRESSED, e -> {
+                        Node n = e.getPickResult().getIntersectedNode();
+                        System.out.println("[PICK] node=" + n
+                                + " sceneX=" + e.getSceneX()
+                                + " sceneY=" + e.getSceneY());
+                    });
+
+                    Platform.runLater(() -> {
+                        if (appTopbar != null) {
+                            appTopbar.toFront();
+                        }
+
+                        inicializarPlayerCardRefsSeNecessario();
+
+                        aplicarClipNaCapa();
+
+                        System.out.println("[DEBUG] inicioContainer.mouseTransparent = "
+                                + (inicioContainer != null ? inicioContainer.isMouseTransparent() : "null"));
+                        System.out.println("[DEBUG] playerCardInclude.mouseTransparent = "
+                                + (playerCardInclude != null ? playerCardInclude.isMouseTransparent() : "null"));
+                        System.out.println("[DEBUG] cardPlayerRoot.mouseTransparent = "
+                                + (cardPlayerRoot != null ? cardPlayerRoot.isMouseTransparent() : "null"));
+                        System.out.println("[DEBUG] btnPlayPause.mouseTransparent = "
+                                + (btnPlayPause != null ? btnPlayPause.isMouseTransparent() : "null"));
+
+                        EfeitoDesfoqueDeFundo.aplicarDesfoqueDeFundo(
+                                barraTopoBlurLayer,
+                                barraTopoBgImage,
+                                40);
+
+                        atualizarBlurCardInicio();
+                        atualizarBlurPlayerCard();
+
+                        configurarPlayerMusica();
+                        buscarClimaAsync();
+                    });
+                }
+            });
+        }
     }
 
     private void atualizarBlurCardInicio() {
@@ -126,6 +294,17 @@ public class TelaPrincipalController {
                     cardInicioBlurLayer,
                     cardInicioBgImage,
                     60);
+        }
+    }
+
+    private void atualizarBlurPlayerCard() {
+        System.out.println("[DEBUG] cardPlayerBlurLayer = " + cardPlayerBlurLayer);
+        System.out.println("[DEBUG] cardPlayerBgImage   = " + cardPlayerBgImage);
+        if (cardPlayerBlurLayer != null && cardPlayerBgImage != null) {
+            EfeitoDesfoqueDeFundo.aplicarDesfoqueDeFundo(
+                    cardPlayerBlurLayer,
+                    cardPlayerBgImage,
+                    50);
         }
     }
 
@@ -160,6 +339,7 @@ public class TelaPrincipalController {
 
     @FXML
     private void aoClicarFechar() {
+        playerMusicaService.dispose();
         Stage stage = obterStage();
         if (stage != null) {
             stage.close();
@@ -180,25 +360,30 @@ public class TelaPrincipalController {
     }
 
     @FXML
-    private void aoClicarInicio() {
+    private void aoClicarInicio(ActionEvent event) {
+        System.out.println("[DEBUG] Clicou INÍCIO");
         marcarBotaoAtivo(botaoInicio);
         mostrarTelaInicio();
+
     }
 
     @FXML
-    private void aoClicarHabitos() {
+    private void aoClicarHabitos(ActionEvent event) {
+        System.out.println("[DEBUG] Clicou HÁBITOS");
         marcarBotaoAtivo(botaoHabitos);
         mostrarTelaHabitos();
     }
 
     @FXML
-    private void aoClicarEstudos() {
+    private void aoClicarEstudos(ActionEvent event) {
+        System.out.println("[DEBUG] Clicou ESTUDOS");
         marcarBotaoAtivo(botaoEstudos);
         mostrarTelaEstudos();
     }
 
     @FXML
-    private void aoClicarMetas() {
+    private void aoClicarMetas(ActionEvent event) {
+        System.out.println("[DEBUG] Clicou METAS");
         marcarBotaoAtivo(botaoMetas);
         mostrarTelaMetas();
     }
@@ -225,6 +410,32 @@ public class TelaPrincipalController {
             return;
         conteudoCentral.getChildren().setAll(node);
         StackPane.setAlignment(node, Pos.TOP_LEFT);
+    }
+
+    private void mostrarTelaInicio() {
+        if (inicioContainer != null) {
+            setConteudoCentral(inicioContainer);
+        }
+    }
+
+    private Node criarPlaceholder(String texto) {
+        Label label = new Label(texto);
+        label.getStyleClass().add("principal-placeholder");
+        StackPane container = new StackPane(label);
+        container.setAlignment(Pos.CENTER);
+        return container;
+    }
+
+    private void mostrarTelaHabitos() {
+        setConteudoCentral(criarPlaceholder("Hábitos — em construção"));
+    }
+
+    private void mostrarTelaEstudos() {
+        setConteudoCentral(criarPlaceholder("Estudos — em construção"));
+    }
+
+    private void mostrarTelaMetas() {
+        setConteudoCentral(criarPlaceholder("Metas — em construção"));
     }
 
     private void configurarSaudacao() {
@@ -403,7 +614,6 @@ public class TelaPrincipalController {
 
             if (diasLabels[i] != null) {
                 String nomeDia = d.data.format(fmtDia);
-
                 nomeDia = nomeDia.substring(0, 1).toUpperCase() + nomeDia.substring(1, 3);
                 diasLabels[i].setText(nomeDia);
             }
@@ -419,30 +629,55 @@ public class TelaPrincipalController {
         }
     }
 
-    private void mostrarTelaInicio() {
-        if (cardInicioRoot != null) {
-            setConteudoCentral(cardInicioRoot);
-            Platform.runLater(this::atualizarBlurCardInicio);
+    private void configurarPlayerMusica() {
+
+        atualizarUIFaixaAtual();
+
+        if (sliderVolume != null) {
+            sliderVolume.setValue(0.6);
+            sliderVolume.valueProperty().addListener((obs, oldV, newV) -> {
+                playerMusicaService.setVolume(newV.doubleValue());
+            });
         }
+
+        if (sliderProgresso != null && labelTempoAtual != null && labelTempoTotal != null) {
+            sliderProgresso.setDisable(false);
+            playerMusicaService.configurarControlesProgresso(
+                    sliderProgresso,
+                    labelTempoAtual,
+                    labelTempoTotal);
+        }
+
+        if (btnPlayPause != null) {
+            btnPlayPause.setOnAction(e -> {
+                boolean tocando = playerMusicaService.playPause();
+                atualizarIconePlayPause(tocando);
+            });
+        }
+
+        if (btnProxima != null) {
+            btnProxima.setOnAction(e -> {
+                playerMusicaService.proximaFaixa();
+                atualizarUIFaixaAtual();
+                atualizarIconePlayPause(true);
+            });
+        }
+
+        if (btnAnterior != null) {
+            btnAnterior.setOnAction(e -> {
+                playerMusicaService.faixaAnterior();
+                atualizarUIFaixaAtual();
+                atualizarIconePlayPause(true);
+            });
+        }
+
+        atualizarIconePlayPause(false);
     }
 
-    private Node criarPlaceholder(String texto) {
-        Label label = new Label(texto);
-        label.getStyleClass().add("principal-placeholder");
-        StackPane container = new StackPane(label);
-        container.setAlignment(Pos.CENTER);
-        return container;
+    private void atualizarIconePlayPause(boolean tocando) {
+        if (btnPlayPause == null)
+            return;
+        btnPlayPause.setText(tocando ? "⏸" : "▶");
     }
 
-    private void mostrarTelaHabitos() {
-        setConteudoCentral(criarPlaceholder("Hábitos — em construção"));
-    }
-
-    private void mostrarTelaEstudos() {
-        setConteudoCentral(criarPlaceholder("Estudos — em construção"));
-    }
-
-    private void mostrarTelaMetas() {
-        setConteudoCentral(criarPlaceholder("Metas — em construção"));
-    }
 }
