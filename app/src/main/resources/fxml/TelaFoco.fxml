@@ -1,0 +1,240 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.scene.layout.StackPane?>
+<?import javafx.scene.layout.VBox?>
+<?import javafx.scene.layout.HBox?>
+<?import javafx.scene.control.Label?>
+<?import javafx.scene.control.Button?>
+<?import javafx.scene.control.ComboBox?>
+<?import javafx.scene.control.ProgressBar?>
+<?import javafx.scene.control.ProgressIndicator?>
+<?import javafx.scene.control.TextField?>
+<?import javafx.scene.image.ImageView?>
+
+<StackPane fx:controller="levelup.desktop.java.ui.TelaFocoController"
+           xmlns="http://javafx.com/javafx/21"
+           xmlns:fx="http://javafx.com/fxml/1"
+           fx:id="rootFoco"
+           style="
+               -fx-padding: 60 0 0 0;
+               -fx-alignment: center;
+               -fx-background-color: transparent;
+           ">
+
+    <!-- CARD ROOT -->
+    <StackPane fx:id="cardFocoRoot"
+               style="
+                   -fx-background-color: transparent;
+                   -fx-background-radius: 32;
+                   -fx-border-radius: 32;
+
+                   -fx-border-color:
+                       rgba(248,250,252,0.35)
+                       rgba(248,250,252,0.22)
+                       rgba(248,250,252,0.22)
+                       rgba(248,250,252,0.35);
+                   -fx-border-width: 2 1 1 2;
+
+                   -fx-padding: 0;
+                   -fx-max-width: 1000;
+                   -fx-max-height: 500;
+
+                   -fx-effect: dropshadow(gaussian, rgba(15,23,42,0.85), 40, 0.45, 0, 18);
+               ">
+
+        <!-- BG DESFOCADO -->
+        <ImageView fx:id="cardFocoBgImage"
+                   fitWidth="1000"
+                   fitHeight="500"
+                   preserveRatio="false"
+                   smooth="true"
+                   style="-fx-opacity: 1.0;" />
+
+        <!-- LAYER VIDRO + CONTEÚDO -->
+        <StackPane fx:id="cardFocoBlurLayer"
+                   style="
+                       -fx-background-radius: 32;
+                       -fx-background-insets: 0;
+                       -fx-background-color: transparent;
+                       -fx-padding: 28 40 32 40;
+                   ">
+
+            <!-- COLUNA CENTRAL: sempre centrada no card -->
+            <VBox spacing="12"
+                  alignment="CENTER"
+                  StackPane.alignment="CENTER"
+                  prefWidth="520"
+                  style="-fx-background-color: transparent;">
+
+                <Label text="Tarefa atual"
+                       style="
+                           -fx-text-fill: #e5e7eb;
+                           -fx-font-size: 15px;
+                       " />
+
+                <Label fx:id="labelTarefaAtualEmFoco"
+                       text="Nenhuma tarefa selecionada"
+                       style="
+                           -fx-text-fill: #e5e7eb;
+                           -fx-font-size: 14px;
+                       " />
+
+                <StackPane alignment="CENTER"
+                           style="-fx-background-color: transparent;">
+
+                    <!-- ANEL DE PROGRESSO CIRCULAR -->
+                    <ProgressIndicator fx:id="progressCircular"
+                                       progress="0.0"
+                                       prefWidth="190.0"
+                                       prefHeight="190.0"
+                                       style="
+                                           -fx-progress-color: linear-gradient(to right, #38bdf8, #0ea5e9);
+                                           -fx-control-inner-background: rgba(15,23,42,0.75);
+                                       " />
+
+                    <!-- BOTÃO CIRCULAR (TEXTO CENTRADO) -->
+                    <Button fx:id="botaoFoco"
+                            onAction="#aoClicarIniciarOuEncerrar"
+                            text=""
+                            style="
+                                -fx-background-radius: 999;
+                                -fx-border-radius: 999;
+                                -fx-background-color: rgba(15,23,42,0.96);
+                                -fx-border-color:
+                                    rgba(248,250,252,0.35)
+                                    rgba(248,250,252,0.22)
+                                    rgba(248,250,252,0.22)
+                                    rgba(248,250,252,0.35);
+                                -fx-border-width: 1;
+
+                                -fx-min-width: 120;
+                                -fx-min-height: 120;
+                                -fx-pref-width: 120;
+                                -fx-pref-height: 120;
+                                -fx-max-width: 120;
+                                -fx-max-height: 120;
+
+                                -fx-cursor: hand;
+                                -fx-effect: dropshadow(gaussian, rgba(15,23,42,0.7), 20, 0.55, 0, 4);
+                                -fx-padding: 0;
+                            ">
+
+                        <Label fx:id="labelTimer"
+                               text="Iniciar"
+                               style="
+                                   -fx-text-fill: #f9fafb;
+                                   -fx-font-size: 20px;
+                                   -fx-font-weight: bold;
+                                   -fx-effect: dropshadow(gaussian, rgba(0,0,0,0.65), 10, 0.7, 0, 0);
+                               " />
+                    </Button>
+                </StackPane>
+
+            </VBox>
+
+            <!-- COLUNA ESQUERDA: título + card nova tarefa (não mexe no centro) -->
+            <VBox spacing="2"
+                  alignment="TOP_LEFT"
+                  StackPane.alignment="TOP_LEFT"
+                   prefWidth="260"
+           maxWidth="260"
+                  style="-fx-background-color: transparent;">
+
+                <!-- TÍTULO -->
+                <Label text="Modo Foco"
+                       style="
+                           -fx-text-fill: #f9fafb;
+                           -fx-font-size: 22px;
+                           -fx-font-weight: bold;
+                           -fx-effect: dropshadow(gaussian, rgba(0,0,0,0.45), 10, 0.6, 0, 0);
+                       " />
+
+                <!-- CARD NOVA TAREFA -->
+                <StackPane fx:id="cardNovaTarefaRoot"
+                           style="
+                               -fx-background-color: transparent;
+                               -fx-background-radius: 18;
+                               -fx-border-radius: 18;
+                               -fx-border-color:
+                                   rgba(248,250,252,0.35)
+                                   rgba(248,250,252,0.22)
+                                   rgba(248,250,252,0.22)
+                                   rgba(248,250,252,0.35);
+                               -fx-border-width: 1;
+                               -fx-effect: dropshadow(gaussian, rgba(15,23,42,0.7), 18, 0.45, 0, 4);
+                           ">
+
+                    <VBox spacing="8"
+                          alignment="TOP_LEFT"
+                          style="
+                              -fx-background-color: transparent;
+                              -fx-background-radius: 18;
+                              -fx-padding: 10 14 12 14;
+                          ">
+
+                        <Label text="Nova tarefa"
+                               style="
+                                   -fx-text-fill: #f9fafb;
+                                   -fx-font-size: 12px;
+                                   -fx-font-weight: bold;
+                               " />
+
+                        <TextField fx:id="campoNovaTarefa"
+                                   promptText="Digite o nome da tarefa"
+                                   style="
+                                       -fx-background-color: rgba(15,23,42,0.0);
+                                       -fx-background-radius: 999;
+                                       -fx-border-radius: 999;
+                                       -fx-border-color: rgba(148,163,184,0.8);
+                                       -fx-border-width: 1;
+                                       -fx-text-fill: #e5e7eb;
+                                       -fx-font-size: 11px;
+                                       -fx-padding: 4 10 4 10;
+                                   " />
+
+                        <Button fx:id="botaoAdicionarTarefa"
+                                text="Adicionar"
+                                style="
+                                    -fx-background-radius: 999;
+                                    -fx-border-radius: 999;
+                                    -fx-background-color: transparent;
+                                    -fx-border-color: rgba(148,163,184,0.8);
+                                    -fx-text-fill: #e5e7eb;
+                                    -fx-font-size: 11px;
+                                    -fx-font-weight: bold;
+                                    -fx-padding: 4 14;
+                                    -fx-cursor: hand;
+                                " />
+                    </VBox>
+                </StackPane>
+
+            </VBox>
+
+            <!-- ELEMENTOS ANTIGOS ESCONDIDOS PRA NÃO QUEBRAR O CONTROLLER -->
+            <ComboBox fx:id="comboTarefas"
+                      visible="false"
+                      managed="false" />
+
+            <Label fx:id="labelEstado"
+                   text=""
+                   visible="false"
+                   managed="false" />
+
+            <ProgressBar fx:id="progressSessao"
+                         prefWidth="320.0"
+                         progress="0.0"
+                         visible="false"
+                         managed="false" />
+
+            <Button fx:id="botaoPausar"
+                    text="Pausar"
+                    onAction="#aoClicarPausar"
+                    disable="true"
+                    visible="false"
+                    managed="false" />
+
+        </StackPane>
+
+    </StackPane>
+
+</StackPane>

@@ -14,6 +14,8 @@ import levelup.desktop.java.backend.AuthService;
 import levelup.desktop.java.backend.AuthService.AuthException;
 import levelup.desktop.java.sessao.SessaoUsuario;
 import levelup.desktop.java.ui.efeitos.EfeitoDesfoqueDeFundo;
+import levelup.desktop.java.ui.GerenciadorTelas;
+
 
 import java.io.IOException;
 import java.util.regex.Pattern;
@@ -135,7 +137,7 @@ public class TelaLoginController {
                 Platform.runLater(() -> {
                     loginEmAndamento = false;
                     limparErro();
-                    setErro("Login ok! Depois a gente abre a tela principal, mizira. 😎");
+                     GerenciadorTelas.mostrarTelaPrincipal();
                     validarEstadoLogin();
                 });
             } catch (AuthException e) {

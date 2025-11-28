@@ -47,6 +47,10 @@ import javafx.scene.paint.Color;
 import javafx.stage.Screen;
 import javafx.stage.StageStyle;
 import javafx.geometry.Rectangle2D;
+import levelup.desktop.java.ui.TelaFocoController;
+import javafx.fxml.FXMLLoader;
+import javafx.scene.Parent;
+import java.io.IOException;
 
 public class TelaPrincipalController {
 
@@ -192,6 +196,11 @@ public class TelaPrincipalController {
     @FXML
     private StackPane cardHabitosInclude;
 
+    private Parent focoRoot;
+    private TelaFocoController telaFocoController;
+    private StackPane focoBlurLayer;
+private ImageView focoBgImage;
+
     private StackPane cardHabitosBlurLayer;
     private ImageView cardHabitosBgImage;
 
@@ -209,6 +218,33 @@ public class TelaPrincipalController {
             System.out.println("[LEMBRETES] Som de alerta carregado.");
         } else {
             System.out.println("[LEMBRETES] NÃO achou /audio/alerta.mp3 no classpath.");
+        }
+    }
+
+    private void carregarTelaFocoSePrecisar() {
+        if (focoRoot != null) {
+            return; // já carregou uma vez, reaproveita
+        }
+
+        try {
+            FXMLLoader loader = new FXMLLoader(App.class.getResource("/fxml/TelaFoco.fxml"));
+            focoRoot = loader.load();
+            telaFocoController = loader.getController();
+
+             focoBlurLayer = (StackPane) focoRoot.lookup("#cardFocoBlurLayer");
+        focoBgImage   = (ImageView) focoRoot.lookup("#cardFocoBgImage");
+            // se quiser, aqui você consegue chamar métodos da tela de foco depois
+        } catch (IOException e) {
+            e.printStackTrace();
+            mostrarToast("Erro ao carregar tela de foco", false);
+        }
+    }
+
+    private void mostrarTelaFoco() {
+        carregarTelaFocoSePrecisar();
+        if (focoRoot != null) {
+            setConteudoCentral(focoRoot);
+            Platform.runLater(this::atualizarBlurCardFoco);
         }
     }
 
@@ -666,6 +702,17 @@ public class TelaPrincipalController {
         }
     }
 
+    private void atualizarBlurCardFoco() {
+    if (focoBlurLayer != null && focoBgImage != null) {
+        EfeitoDesfoqueDeFundo.aplicarDesfoqueDeFundo(
+                focoBlurLayer,
+                focoBgImage,
+                40 // mesmo raio dos outros grandes
+        );
+    }
+}
+
+
     private void atualizarBlurCardHabitos() {
         if (cardHabitosBlurLayer != null && cardHabitosBgImage != null) {
             EfeitoDesfoqueDeFundo.aplicarDesfoqueDeFundo(
@@ -826,9 +873,9 @@ public class TelaPrincipalController {
 
     @FXML
     private void aoClicarHabitos(ActionEvent event) {
-        System.out.println("[DEBUG] Clicou HÁBITOS");
+        System.out.println("[DEBUG] Clicou FOCO");
         marcarBotaoAtivo(botaoHabitos);
-        mostrarTelaHabitos();
+        mostrarTelaFoco();
     }
 
     @FXML
@@ -883,9 +930,7 @@ public class TelaPrincipalController {
         return container;
     }
 
-    private void mostrarTelaHabitos() {
-        setConteudoCentral(criarPlaceholder("Hábitos — em construção"));
-    }
+    
 
     private void mostrarTelaEstudos() {
         setConteudoCentral(criarPlaceholder("Estudos — em construção"));
@@ -908,8 +953,8 @@ public class TelaPrincipalController {
         else
             saudacao = "Boa noite";
 
-        String nome = "Guilherme";
-        labelSaudacaoUsuario.setText(saudacao + ", " + nome);
+        
+        labelSaudacaoUsuario.setText(saudacao);
     }
 
     private void iniciarRelogio() {

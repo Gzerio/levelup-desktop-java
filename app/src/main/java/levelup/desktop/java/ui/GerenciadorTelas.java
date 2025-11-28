@@ -24,7 +24,7 @@ public class GerenciadorTelas {
     }
 
     private static StackPane criarContainerComFundo(Parent conteudo) {
-        URL bgUrl = App.class.getResource("/images/fundo5.jpg");
+        URL bgUrl = App.class.getResource("/images/fundo11.jpg");
         StackPane container;
         if (bgUrl != null) {
             Image bgImage = new Image(bgUrl.toExternalForm());

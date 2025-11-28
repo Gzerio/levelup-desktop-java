@@ -64,7 +64,7 @@
                                           styleClass="nav-button nav-button-ativo" />
 
                                    <Button fx:id="botaoHabitos"
-                                          text="Hábitos"
+                                          text="Foco"
                                           onAction="#aoClicarHabitos"
                                           styleClass="nav-button"
                                    />
@@ -120,7 +120,7 @@
                                                  <HBox spacing="8"
                                                         alignment="CENTER_LEFT">
                                                         <Label fx:id="labelSaudacaoUsuario"
-                                                               text="Bom dia, Guilherme"
+                                                               text="Bom dia"
                                                                styleClass="inicio-card-greeting" />
 
                                                         <Region HBox.hgrow="ALWAYS" />
