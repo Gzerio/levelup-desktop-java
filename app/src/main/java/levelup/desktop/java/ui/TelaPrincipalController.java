@@ -9,11 +9,14 @@ import javafx.scene.Node;
 import javafx.scene.control.Button;
 import javafx.scene.control.Label;
 import javafx.scene.control.Slider;
+import javafx.scene.control.TextField;
 import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
 import javafx.scene.layout.HBox;
+import javafx.scene.layout.Priority;
 import javafx.scene.layout.Region;
 import javafx.scene.layout.StackPane;
+import javafx.scene.layout.VBox;
 import javafx.stage.Stage;
 import javafx.util.Duration;
 import levelup.desktop.java.App;
@@ -22,15 +25,39 @@ import levelup.desktop.java.backend.WeatherService.WeatherInfo;
 import levelup.desktop.java.ui.efeitos.EfeitoDesfoqueDeFundo;
 import levelup.desktop.java.ui.player.PlayerMusicaService;
 import javafx.scene.shape.Rectangle;
-
+import levelup.desktop.java.ui.lembretes.LembreteService;
+import javafx.animation.FadeTransition;
+import javafx.animation.PauseTransition;
+import javafx.animation.SequentialTransition;
+import javafx.scene.media.AudioClip;
+import javafx.geometry.Insets;
+import java.util.ArrayList;
 import java.time.LocalDate;
 import java.time.LocalTime;
 import java.time.format.DateTimeFormatter;
 import java.util.List;
 import java.util.Locale;
 import javafx.event.ActionEvent;
+import java.awt.SystemTray;
+import java.awt.TrayIcon;
+import java.awt.Toolkit;
+import java.awt.image.BufferedImage;
+import javafx.scene.Scene;
+import javafx.scene.paint.Color;
+import javafx.stage.Screen;
+import javafx.stage.StageStyle;
+import javafx.geometry.Rectangle2D;
 
 public class TelaPrincipalController {
+
+    @FXML
+    private StackPane cardProgressoInclude;
+
+    @FXML
+    private StackPane cardProgressoBlurLayer;
+
+    @FXML
+    private ImageView cardProgressoBgImage;
 
     @FXML
     private Button botaoMinimizar;
@@ -144,6 +171,123 @@ public class TelaPrincipalController {
     @FXML
     private StackPane appTopbar;
 
+    @FXML
+    private StackPane cardLembretesInclude;
+
+    @FXML
+    private StackPane cardLembretesBlurLayer;
+
+    @FXML
+    private ImageView cardLembretesBgImage;
+
+    @FXML
+    private StackPane cardTarefasInclude;
+
+    @FXML
+    private StackPane cardTarefasBlurLayer;
+
+    @FXML
+    private ImageView cardTarefasBgImage;
+
+    @FXML
+    private StackPane cardHabitosInclude;
+
+    private StackPane cardHabitosBlurLayer;
+    private ImageView cardHabitosBgImage;
+
+    private LembreteService lembreteService;
+    private AudioClip somAlertaLembrete;
+    private Timeline lembretesTimeline;
+    private StackPane badgeLembreteAtivo;
+    private TrayIcon trayIcon;
+    private Stage stageNotificacao;
+
+    private void carregarSomAlertaLembrete() {
+        var url = App.class.getResource("/audio/alerta.mp3");
+        if (url != null) {
+            somAlertaLembrete = new AudioClip(url.toExternalForm());
+            System.out.println("[LEMBRETES] Som de alerta carregado.");
+        } else {
+            System.out.println("[LEMBRETES] NÃO achou /audio/alerta.mp3 no classpath.");
+        }
+    }
+
+    private void mostrarNotificacaoFlutuante(LembreteService.Lembrete lembrete) {
+        if (lembrete == null)
+            return;
+
+        Platform.runLater(() -> {
+
+            if (stageNotificacao != null) {
+                stageNotificacao.close();
+                stageNotificacao = null;
+            }
+
+            Label titulo = new Label(lembrete.getTitulo());
+            titulo.getStyleClass().add("lembrete-badge-title");
+
+            String horaStr = lembrete.getHorario().format(DateTimeFormatter.ofPattern("HH:mm"));
+            Label hora = new Label(horaStr);
+            hora.getStyleClass().add("lembrete-badge-time");
+
+            Button btnFechar = new Button("X");
+            btnFechar.getStyleClass().add("lembrete-badge-close-btn");
+
+            Region espaco = new Region();
+            HBox.setHgrow(espaco, Priority.ALWAYS);
+
+            HBox linhaTopo = new HBox(8, titulo, espaco, btnFechar);
+            linhaTopo.setAlignment(Pos.CENTER_LEFT);
+
+            VBox conteudo = new VBox(4, linhaTopo, hora);
+            conteudo.getStyleClass().add("lembrete-badge-content");
+
+            StackPane root = new StackPane(conteudo);
+            root.getStyleClass().add("lembrete-badge-root");
+
+            Scene cena = new Scene(root);
+            cena.setFill(Color.TRANSPARENT);
+
+            var cssUrl = App.class.getResource("/css/principal.css");
+            if (cssUrl == null) {
+                cssUrl = App.class.getResource("/principal.css");
+            }
+
+            if (cssUrl != null) {
+                cena.getStylesheets().add(cssUrl.toExternalForm());
+            } else {
+                System.out.println("[LEMBRETES] Não achei principal.css para estilizar o toast.");
+            }
+
+            Stage stage = new Stage(StageStyle.TRANSPARENT);
+            stage.setAlwaysOnTop(true);
+            stage.setScene(cena);
+
+            stage.show();
+
+            double largura = stage.getWidth();
+            double altura = stage.getHeight();
+            Rectangle2D bounds = Screen.getPrimary().getVisualBounds();
+
+            double margem = 8;
+
+            stage.setX(bounds.getMaxX() - largura - margem);
+            stage.setY(bounds.getMaxY() - altura - margem);
+
+            btnFechar.setOnAction(ev -> {
+                pararSomAlertaLembrete();
+                if (lembreteService != null) {
+                    lembreteService.removerLembrete(lembrete);
+                }
+                stage.close();
+                stageNotificacao = null;
+            });
+
+            stageNotificacao = stage;
+            stage.show();
+        });
+    }
+
     private void aplicarClipNaCapa() {
         if (imageCapaPlaylist == null)
             return;
@@ -225,6 +369,201 @@ public class TelaPrincipalController {
         System.out.println("[DEBUG] cardPlayerBgImage   = " + cardPlayerBgImage);
     }
 
+    private void inicializarCardHabitosRefsSeNecessario() {
+        if (cardHabitosInclude == null) {
+            System.out.println("[DEBUG] cardHabitosInclude é null (fx:include não achado)");
+            return;
+        }
+
+        if (cardHabitosBlurLayer == null || cardHabitosBgImage == null) {
+            cardHabitosBlurLayer = (StackPane) cardHabitosInclude.lookup("#cardHabitosBlurLayer");
+            cardHabitosBgImage = (ImageView) cardHabitosInclude.lookup("#cardHabitosBgImage");
+
+            System.out.println("[DEBUG] cardHabitosBlurLayer = " + cardHabitosBlurLayer);
+            System.out.println("[DEBUG] cardHabitosBgImage   = " + cardHabitosBgImage);
+        }
+    }
+
+    private void inicializarCardTarefasRefsSeNecessario() {
+        if (cardTarefasInclude == null) {
+            System.out.println("[DEBUG] cardTarefasInclude é null (fx:include não achado)");
+            return;
+        }
+
+        if (cardTarefasBlurLayer == null || cardTarefasBgImage == null) {
+            cardTarefasBlurLayer = (StackPane) cardTarefasInclude.lookup("#cardTarefasBlurLayer");
+            cardTarefasBgImage = (ImageView) cardTarefasInclude.lookup("#cardTarefasBgImage");
+
+            System.out.println("[DEBUG] cardTarefasBlurLayer = " + cardTarefasBlurLayer);
+            System.out.println("[DEBUG] cardTarefasBgImage   = " + cardTarefasBgImage);
+        }
+    }
+
+    private void inicializarCardLembretesRefsSeNecessario() {
+        if (cardLembretesInclude == null) {
+            System.out.println("[DEBUG] cardLembretesInclude é null (fx:include não achado)");
+            return;
+        }
+
+        if (cardLembretesBlurLayer == null || cardLembretesBgImage == null) {
+            cardLembretesBlurLayer = (StackPane) cardLembretesInclude.lookup("#cardLembretesBlurLayer");
+            cardLembretesBgImage = (ImageView) cardLembretesInclude.lookup("#cardLembretesBgImage");
+
+            System.out.println("[DEBUG] cardLembretesBlurLayer = " + cardLembretesBlurLayer);
+            System.out.println("[DEBUG] cardLembretesBgImage   = " + cardLembretesBgImage);
+        }
+
+        inicializarLembreteServiceSeNecessario();
+    }
+
+    private void inicializarCardProgressoRefsSeNecessario() {
+        if (cardProgressoInclude == null) {
+            System.out.println("[DEBUG] cardProgressoInclude é null (fx:include não achado)");
+            return;
+        }
+
+        if (cardProgressoBlurLayer == null || cardProgressoBgImage == null) {
+            cardProgressoBlurLayer = (StackPane) cardProgressoInclude.lookup("#cardProgressoBlurLayer");
+            cardProgressoBgImage = (ImageView) cardProgressoInclude.lookup("#cardProgressoBgImage");
+
+            System.out.println("[DEBUG] cardProgressoBlurLayer = " + cardProgressoBlurLayer);
+            System.out.println("[DEBUG] cardProgressoBgImage   = " + cardProgressoBgImage);
+        }
+    }
+
+    private void inicializarLembreteServiceSeNecessario() {
+        if (cardLembretesInclude == null) {
+            return;
+        }
+        if (lembreteService != null) {
+            return;
+        }
+
+        VBox formNovoLembrete = (VBox) cardLembretesInclude.lookup("#formNovoLembrete");
+        TextField campoTituloLembrete = (TextField) cardLembretesInclude.lookup("#campoTituloLembrete");
+        TextField campoHorarioLembrete = (TextField) cardLembretesInclude.lookup("#campoHorarioLembrete");
+        VBox listaLembretes = (VBox) cardLembretesInclude.lookup("#listaLembretes");
+
+        Button btnSalvarLembrete = (Button) cardLembretesInclude.lookup("#btnSalvarLembrete");
+        Button btnSomLembretes = (Button) cardLembretesInclude.lookup("#btnSomLembretes");
+        ImageView iconeSomLembretes = (ImageView) cardLembretesInclude.lookup("#iconeSomLembretes");
+        Button btnNovoLembrete = (Button) cardLembretesInclude.lookup("#btnNovoLembrete");
+
+        Image iconeDelete = carregarImagem("/images/lixeira.png");
+        Image iconeSomAtivo = carregarImagem("/images/somativo.png");
+        Image iconeSomDesativado = carregarImagem("/images/somdesativado.png");
+
+        lembreteService = new LembreteService(
+                formNovoLembrete,
+                campoTituloLembrete,
+                campoHorarioLembrete,
+                listaLembretes,
+                btnSalvarLembrete,
+                btnSomLembretes,
+                iconeSomLembretes,
+                iconeDelete,
+                iconeSomAtivo,
+                iconeSomDesativado,
+                this::onSomLembretesTrocado);
+
+        if (btnNovoLembrete != null) {
+            btnNovoLembrete.setOnAction(e -> lembreteService.alternarFormulario());
+        }
+        iniciarMonitorLembretes();
+    }
+
+    private Image carregarImagem(String caminho) {
+        var url = App.class.getResource(caminho);
+        if (url != null) {
+            return new Image(url.toExternalForm());
+        }
+        System.out.println("[LEMBRETES] Imagem não encontrada: " + caminho);
+        return null;
+    }
+
+    private void iniciarMonitorLembretes() {
+        if (lembretesTimeline != null) {
+            return;
+        }
+
+        lembretesTimeline = new Timeline(
+                new KeyFrame(Duration.seconds(1), e -> verificarLembretes()));
+        lembretesTimeline.setCycleCount(Timeline.INDEFINITE);
+        lembretesTimeline.play();
+    }
+
+    private void verificarLembretes() {
+        if (lembreteService == null)
+            return;
+
+        LocalTime agora = LocalTime.now().withSecond(0).withNano(0);
+
+        for (LembreteService.Lembrete l : new ArrayList<>(lembreteService.getLembretes())) {
+            if (!l.isDisparado() && !agora.isBefore(l.getHorario())) {
+                acionarLembrete(l);
+            }
+        }
+    }
+
+    private void acionarLembrete(LembreteService.Lembrete lembrete) {
+        if (lembrete == null || lembreteService == null)
+            return;
+
+        lembreteService.marcarComoDisparado(lembrete);
+
+        tocarSomAlertaLembrete();
+        mostrarNotificacaoFlutuante(lembrete);
+    }
+
+    private void mostrarBadgeLembrete(LembreteService.Lembrete lembrete) {
+        if (conteudoCentral == null)
+            return;
+
+        if (badgeLembreteAtivo != null) {
+            conteudoCentral.getChildren().remove(badgeLembreteAtivo);
+            badgeLembreteAtivo = null;
+        }
+
+        Label titulo = new Label(lembrete.getTitulo());
+        titulo.getStyleClass().add("lembrete-badge-title");
+
+        String horaStr = lembrete.getHorario().format(DateTimeFormatter.ofPattern("HH:mm"));
+        Label hora = new Label(horaStr);
+        hora.getStyleClass().add("lembrete-badge-time");
+
+        Button btnFechar = new Button("X");
+        btnFechar.getStyleClass().add("lembrete-badge-close-btn");
+
+        Region espaco = new Region();
+        HBox.setHgrow(espaco, Priority.ALWAYS);
+
+        HBox linhaTopo = new HBox(8, titulo, espaco, btnFechar);
+        linhaTopo.setAlignment(Pos.CENTER_LEFT);
+
+        VBox conteudo = new VBox(4, linhaTopo, hora);
+        conteudo.getStyleClass().add("lembrete-badge-content");
+
+        badgeLembreteAtivo = new StackPane(conteudo);
+        badgeLembreteAtivo.getStyleClass().add("lembrete-badge-root");
+        badgeLembreteAtivo.setMaxWidth(320);
+        badgeLembreteAtivo.setMaxHeight(Region.USE_PREF_SIZE);
+
+        conteudoCentral.getChildren().add(badgeLembreteAtivo);
+        StackPane.setAlignment(badgeLembreteAtivo, Pos.BOTTOM_RIGHT);
+        StackPane.setMargin(badgeLembreteAtivo, new Insets(0, 24, 72, 0));
+
+        btnFechar.setOnAction(e -> {
+            pararSomAlertaLembrete();
+            if (conteudoCentral != null && badgeLembreteAtivo != null) {
+                conteudoCentral.getChildren().remove(badgeLembreteAtivo);
+                badgeLembreteAtivo = null;
+            }
+            if (lembreteService != null) {
+                lembreteService.removerLembrete(lembrete);
+            }
+        });
+    }
+
     @FXML
     public void initialize() {
         System.out.println("=== DEBUG INICIAL ===");
@@ -242,6 +581,7 @@ public class TelaPrincipalController {
         configurarSaudacao();
         iniciarRelogio();
         mostrarTelaInicio();
+        carregarSomAlertaLembrete();
 
         if (conteudoCentral != null) {
             conteudoCentral.sceneProperty().addListener((obs, cenaAntiga, cenaNova) -> {
@@ -260,6 +600,10 @@ public class TelaPrincipalController {
                         }
 
                         inicializarPlayerCardRefsSeNecessario();
+                        inicializarCardLembretesRefsSeNecessario();
+                        inicializarCardProgressoRefsSeNecessario();
+                        inicializarCardTarefasRefsSeNecessario();
+                        inicializarCardHabitosRefsSeNecessario();
 
                         aplicarClipNaCapa();
 
@@ -279,12 +623,55 @@ public class TelaPrincipalController {
 
                         atualizarBlurCardInicio();
                         atualizarBlurPlayerCard();
+                        atualizarBlurCardLembretes();
+                        atualizarBlurCardProgresso();
+                        atualizarBlurCardTarefas();
+                        atualizarBlurCardHabitos();
 
                         configurarPlayerMusica();
                         buscarClimaAsync();
                     });
                 }
             });
+        }
+    }
+
+    public void tocarSomAlertaLembrete() {
+        if (somAlertaLembrete == null) {
+            System.out.println("[LEMBRETES] somAlertaLembrete é null, nada pra tocar.");
+            return;
+        }
+
+        if (lembreteService != null && !lembreteService.isSomAtivo()) {
+            System.out.println("[LEMBRETES] Som está desativado, não toca alerta.");
+            return;
+        }
+
+        somAlertaLembrete.stop();
+        somAlertaLembrete.play();
+    }
+
+    public void pararSomAlertaLembrete() {
+        if (somAlertaLembrete != null) {
+            somAlertaLembrete.stop();
+        }
+    }
+
+    private void atualizarBlurCardTarefas() {
+        if (cardTarefasBlurLayer != null && cardTarefasBgImage != null) {
+            EfeitoDesfoqueDeFundo.aplicarDesfoqueDeFundo(
+                    cardTarefasBlurLayer,
+                    cardTarefasBgImage,
+                    50);
+        }
+    }
+
+    private void atualizarBlurCardHabitos() {
+        if (cardHabitosBlurLayer != null && cardHabitosBgImage != null) {
+            EfeitoDesfoqueDeFundo.aplicarDesfoqueDeFundo(
+                    cardHabitosBlurLayer,
+                    cardHabitosBgImage,
+                    50);
         }
     }
 
@@ -308,6 +695,24 @@ public class TelaPrincipalController {
         }
     }
 
+    private void atualizarBlurCardLembretes() {
+        if (cardLembretesBlurLayer != null && cardLembretesBgImage != null) {
+            EfeitoDesfoqueDeFundo.aplicarDesfoqueDeFundo(
+                    cardLembretesBlurLayer,
+                    cardLembretesBgImage,
+                    50);
+        }
+    }
+
+    private void atualizarBlurCardProgresso() {
+        if (cardProgressoBlurLayer != null && cardProgressoBgImage != null) {
+            EfeitoDesfoqueDeFundo.aplicarDesfoqueDeFundo(
+                    cardProgressoBlurLayer,
+                    cardProgressoBgImage,
+                    50);
+        }
+    }
+
     private void configurarArrasteJanela(Node areaArraste) {
         if (areaArraste == null)
             return;
@@ -327,6 +732,58 @@ public class TelaPrincipalController {
                 stage.setY(evento.getScreenY() - offsetY);
             }
         });
+    }
+
+    private void onSomLembretesTrocado(boolean somAtivo) {
+
+        if (somAtivo) {
+            mostrarToast("Alerta ativo", true);
+
+        } else {
+            mostrarToast("Alerta desativado", false);
+        }
+    }
+
+    private void mostrarToast(String mensagem, boolean sucesso) {
+        if (conteudoCentral == null)
+            return;
+
+        Label label = new Label(mensagem);
+
+        StackPane toast = new StackPane(label);
+        toast.getStyleClass().add("toast-base");
+        toast.getStyleClass().add(sucesso ? "toast-success" : "toast-error");
+
+        toast.setMaxWidth(Region.USE_PREF_SIZE);
+        toast.setMaxHeight(Region.USE_PREF_SIZE);
+
+        conteudoCentral.getChildren().add(toast);
+        StackPane.setAlignment(toast, Pos.BOTTOM_RIGHT);
+        StackPane.setMargin(toast, new Insets(0, 24, 24, 0));
+
+        FadeTransition fadeIn = new FadeTransition(Duration.millis(150), toast);
+        fadeIn.setFromValue(0.0);
+        fadeIn.setToValue(1.0);
+
+        PauseTransition pause = new PauseTransition(Duration.seconds(2.0));
+
+        FadeTransition fadeOut = new FadeTransition(Duration.millis(200), toast);
+        fadeOut.setFromValue(1.0);
+        fadeOut.setToValue(0.0);
+
+        SequentialTransition seq = new SequentialTransition(fadeIn, pause, fadeOut);
+        seq.setOnFinished(e -> conteudoCentral.getChildren().remove(toast));
+        seq.play();
+    }
+
+    @FXML
+    private void aoClicarMenuLembretes() {
+        if (lembreteService == null) {
+            inicializarLembreteServiceSeNecessario();
+        }
+        if (lembreteService != null) {
+            lembreteService.alternarFormulario();
+        }
     }
 
     @FXML
@@ -670,6 +1127,8 @@ public class TelaPrincipalController {
                 atualizarIconePlayPause(true);
             });
         }
+
+        playerMusicaService.setOnFaixaMudou(() -> Platform.runLater(this::atualizarUIFaixaAtual));
 
         atualizarIconePlayPause(false);
     }

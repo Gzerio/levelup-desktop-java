@@ -316,3 +316,564 @@
     -fx-text-fill: rgba(229, 231, 235, 0.8);
     -fx-font-size: 10px;
 }
+
+.lembretes-card-root {
+    -fx-min-height: 190;
+    -fx-pref-height: 300;
+    -fx-background-color: transparent;
+    -fx-background-radius: 24;
+    -fx-border-radius: 24;
+
+    -fx-border-color:
+        rgba(248, 250, 252, 0.349) rgba(248, 250, 252, 0.26) rgba(248, 250, 252, 0.26) rgba(248, 250, 252, 0.349);
+
+    -fx-border-width: 2 1 1 2;
+}
+
+
+
+.lembretes-title {
+    -fx-text-fill: #f9fafb;
+    -fx-font-size: 14px;
+    -fx-font-weight: bold;
+}
+
+.lembretes-section-title {
+    -fx-text-fill: #f9fafb;
+    -fx-font-size: 12px;
+    -fx-font-weight: bold;
+}
+
+.lembrete-item-text {
+    -fx-text-fill: #e5e7eb;
+    -fx-font-size: 12px;
+}
+
+.lembretes-divider {
+    -fx-opacity: 0.6;
+}
+
+.lembretes-empty-label {
+    -fx-text-fill: rgba(229, 231, 235, 0.75);
+    -fx-font-size: 11px;
+}
+
+
+.lembretes-icon-btn,
+.lembretes-menu-btn,
+.lembretes-add-btn {
+    -fx-background-color: transparent;
+    -fx-text-fill: #e5e7eb;
+    -fx-font-size: 14px;
+    -fx-min-width: 26;
+    -fx-min-height: 26;
+    -fx-pref-width: 26;
+    -fx-pref-height: 26;
+    -fx-background-radius: 999;
+    -fx-border-color: transparent;
+    -fx-background-insets: 0;
+    -fx-padding: 0;
+    -fx-cursor: hand;
+}
+
+
+.lembretes-icon-btn:hover,
+.lembretes-menu-btn:hover,
+.lembretes-add-btn:hover {
+    -fx-background-color: rgba(255, 255, 255, 0.12);
+}
+
+.lembretes-icon-btn:armed,
+.lembretes-menu-btn:armed,
+.lembretes-add-btn:armed {
+    -fx-background-color: rgba(255, 255, 255, 0.18);
+}
+
+.lembrete-item {
+    -fx-background-color: rgba(15, 23, 42, 0.65);
+    -fx-background-radius: 10;
+    -fx-border-radius: 10;
+    -fx-border-color: rgba(148, 163, 184, 0.6);
+    -fx-border-width: 1;
+    -fx-padding: 6 8 6 10;
+}
+
+.lembrete-item:hover {
+    -fx-background-color: rgba(30, 64, 175, 0.35);
+}
+
+
+.lembrete-item-menu-btn {
+    -fx-background-color: transparent;
+    -fx-text-fill: #e5e7eb;
+    -fx-font-size: 14px;
+    -fx-min-width: 22;
+    -fx-pref-width: 22;
+    -fx-background-radius: 999;
+    -fx-border-color: transparent;
+    -fx-background-insets: 0;
+    -fx-padding: 0;
+    -fx-cursor: hand;
+}
+
+.lembrete-item-menu-btn:hover {
+    -fx-background-color: rgba(255, 255, 255, 0.12);
+}
+
+.lembrete-item-menu-btn:armed {
+    -fx-background-color: rgba(255, 255, 255, 0.18);
+}
+
+.lembretes-form {
+    -fx-background-color: rgba(15, 23, 42, 0);
+
+    -fx-background-radius: 18;
+    -fx-border-radius: 18;
+
+    -fx-border-color:
+        rgba(248, 250, 252, 0.349) rgba(248, 250, 252, 0.26) rgba(248, 250, 252, 0.26) rgba(248, 250, 252, 0.349);
+
+    -fx-border-width: 1;
+
+    -fx-padding: 10 12 12 12;
+
+    -fx-spacing: 6;
+
+}
+
+.lembretes-input {
+    -fx-background-color: rgba(15, 23, 42, 0);
+
+    -fx-background-radius: 999;
+    -fx-border-radius: 999;
+
+    -fx-border-color:
+        rgba(248, 250, 252, 0.349) rgba(248, 250, 252, 0.26) rgba(248, 250, 252, 0.26) rgba(248, 250, 252, 0.349);
+    -fx-border-width: 1;
+
+    -fx-text-fill: #e5e7eb;
+
+    -fx-border-color: #94a3b899;
+
+
+    -fx-font-size: 11px;
+    -fx-padding: 4 10 4 10;
+
+}
+
+
+.lembretes-input:focused {
+    -fx-border-color: #acacac;
+    -fx-border-width: 1.2;
+    -fx-effect: dropshadow(three-pass-box, rgba(56, 191, 248, 0), 12, 0.3, 0, 0);
+}
+
+.lembretes-salvar-btn {
+    -fx-background-color: rgba(15, 23, 42, 0);
+    -fx-text-fill: #e0e0e0da;
+
+    -fx-font-size: 11px;
+    -fx-font-weight: bold;
+
+    -fx-background-radius: 999;
+    -fx-border-radius: 999;
+    -fx-border-color:
+        rgba(248, 250, 252, 0.349) rgba(248, 250, 252, 0.26) rgba(248, 250, 252, 0.26) rgba(248, 250, 252, 0.349);
+    -fx-border-width: 1;
+
+    -fx-padding: 4 16 4 16;
+    -fx-cursor: hand;
+}
+
+
+.lembretes-salvar-btn:hover {
+    -fx-background-color: rgba(255, 255, 255, 0.12);
+}
+
+
+.lembretes-salvar-btn:armed {
+    -fx-background-color: rgba(255, 255, 255, 0.12);
+}
+
+.toast-base {
+    -fx-padding: 6 12 6 12;
+    -fx-background-radius: 999;
+    -fx-border-radius: 999;
+    -fx-font-size: 11px;
+    -fx-font-weight: bold;
+    -fx-text-fill: #b4b4b4;
+    -fx-effect: dropshadow(three-pass-box, rgba(15, 23, 42, 0), 18, 0.4, 0, 0);
+    -fx-opacity: 0.0;
+
+}
+
+.toast-success {
+    -fx-background-color: linear-gradient(to right, #22c55e4b, #4ade80);
+
+}
+
+.toast-error {
+    -fx-background-color: linear-gradient(to right, #f973735b, #ef444438);
+
+    -fx-text-fill: #f9fafb;
+}
+
+.lembrete-badge-root {
+    -fx-background-color: rgba(15, 23, 42, 0.96);
+    -fx-background-radius: 20;
+    -fx-border-radius: 20;
+    -fx-border-color: rgba(148, 163, 184, 0.8);
+    -fx-border-width: 1;
+    -fx-padding: 10 14 10 14;
+    -fx-effect: dropshadow(three-pass-box, rgba(15, 23, 42, 0.85), 22, 0.6, 0, 0);
+}
+
+.lembrete-badge-content {
+    -fx-spacing: 4;
+}
+
+.lembrete-badge-title {
+    -fx-text-fill: #f9fafb;
+    -fx-font-size: 13px;
+    -fx-font-weight: bold;
+}
+
+.lembrete-badge-time {
+    -fx-text-fill: rgba(148, 163, 184, 0.95);
+    -fx-font-size: 11px;
+}
+
+.lembrete-badge-close-btn {
+    -fx-background-color: #f97316;
+
+    -fx-text-fill: #0b1120;
+    -fx-font-size: 11px;
+    -fx-font-weight: bold;
+    -fx-background-radius: 999;
+    -fx-border-radius: 999;
+    -fx-padding: 2 10 2 10;
+    -fx-cursor: hand;
+}
+
+.lembrete-badge-close-btn:hover {
+    -fx-background-color: #fb923c;
+}
+
+
+
+.progresso-card-root {
+    -fx-background-color: transparent;
+    -fx-background-radius: 24;
+    -fx-border-radius: 24;
+    -fx-max-width: 400;
+    -fx-max-height: 320;
+    -fx-border-color:
+        rgba(248, 250, 252, 0.349) rgba(248, 250, 252, 0.26) rgba(248, 250, 252, 0.26) rgba(248, 250, 252, 0.349);
+    -fx-border-width: 2 1 1 2;
+}
+
+.progresso-card-inner {
+    -fx-background-color: transparent;
+    -fx-padding: 16 18 14 18;
+    -fx-spacing: 12;
+}
+
+
+
+
+.progresso-header-title {
+    -fx-text-fill: #f9fafb;
+    -fx-font-size: 13px;
+    -fx-font-weight: bold;
+}
+
+
+
+
+.progresso-gauge-root {
+    -fx-padding: 2 0 4 0;
+}
+
+.progresso-gauge-track {
+    -fx-stroke: rgba(15, 23, 42, 0.9);
+    -fx-fill: transparent;
+    -fx-stroke-line-cap: round;
+}
+
+.progresso-gauge-fill {
+    -fx-stroke: linear-gradient(to right, #38bdf8, #0ea5e9);
+    -fx-fill: transparent;
+    -fx-stroke-line-cap: round;
+}
+
+.progresso-gauge-status {
+    -fx-text-fill: rgba(148, 163, 184, 0.95);
+    -fx-font-size: 11px;
+}
+
+.progresso-gauge-percent {
+    -fx-text-fill: #f9fafb;
+    -fx-font-size: 30px;
+    -fx-font-weight: bold;
+}
+
+.progresso-gauge-detail {
+    -fx-text-fill: rgba(96, 165, 250, 0.95);
+    -fx-font-size: 11px;
+}
+
+
+
+.progresso-footer {
+    -fx-padding: 4 0 0 0;
+}
+
+
+.button.progresso-footer-btn {
+    -fx-background-radius: 999;
+    -fx-border-radius: 999;
+
+    -fx-font-size: 11px;
+    -fx-font-weight: bold;
+    -fx-cursor: hand;
+
+    -fx-pref-height: 32;
+    -fx-padding: 0 18 0 18;
+
+    -fx-border-width: 1;
+    -fx-effect: dropshadow(gaussian, rgba(15, 23, 42, 0.7), 14, 0.45, 0, 0);
+}
+
+
+.button.progresso-footer-btn-muted {
+    -fx-background-color: rgba(15, 23, 42, 0.92);
+    -fx-text-fill: #e5e7eb;
+    -fx-border-color: rgba(148, 163, 184, 0.6);
+}
+
+.button.progresso-footer-btn-muted:hover {
+    -fx-background-color: rgba(30, 41, 59, 0.98);
+    -fx-border-color: rgba(191, 219, 254, 0.85);
+}
+
+.button.progresso-footer-btn-muted:armed {
+    -fx-background-color: rgba(15, 23, 42, 1.0);
+}
+
+
+.button.progresso-footer-btn-primary {
+    -fx-background-color: linear-gradient(to right, #38bdf8, #0ea5e9);
+    -fx-text-fill: #0b1120;
+
+    -fx-pref-width: 150;
+
+    -fx-border-color: rgba(56, 189, 248, 0.9);
+}
+
+.button.progresso-footer-btn-primary:hover {
+    -fx-background-color: linear-gradient(to right, #0ea5e9, #38bdf8);
+    -fx-border-color: rgba(191, 219, 254, 1.0);
+}
+
+.button.progresso-footer-btn-primary:armed {
+    -fx-background-color: linear-gradient(to right, #0284c7, #0369a1);
+}
+
+
+.lembretes-novo-btn {
+    -fx-background-color: rgba(255, 255, 255, 0.06);
+    -fx-text-fill: #f9fafb;
+    -fx-font-size: 11px;
+    -fx-font-weight: bold;
+    -fx-background-radius: 999;
+    -fx-border-radius: 999;
+    -fx-border-color: rgba(148, 163, 184, 0.6);
+    -fx-border-width: 1;
+    -fx-padding: 4 10 4 10;
+    -fx-cursor: hand;
+}
+
+.lembretes-novo-btn:hover {
+    -fx-background-color: rgba(255, 255, 255, 0.12);
+}
+
+.lembrete-delete-btn {
+    -fx-background-color: transparent;
+    -fx-background-radius: 999;
+    -fx-min-width: 22;
+    -fx-min-height: 22;
+    -fx-pref-width: 22;
+    -fx-pref-height: 22;
+    -fx-cursor: hand;
+}
+
+.lembrete-delete-btn:hover {
+    -fx-background-color: rgba(248, 113, 113, 0.18);
+}
+
+
+
+Button.progresso-header-menu-btn {
+    -fx-background-color: red;
+
+    -fx-background-radius: 999;
+    -fx-border-radius: 999;
+
+    -fx-border-color: rgba(148, 163, 184, 0.55);
+    -fx-border-width: 1;
+
+    -fx-text-fill: #e5e7eb;
+    -fx-font-size: 14px;
+
+    -fx-min-width: 26;
+    -fx-min-height: 26;
+    -fx-pref-width: 26;
+    -fx-pref-height: 26;
+
+    -fx-cursor: hand;
+    -fx-padding: 0;
+}
+
+Button.progresso-header-menu-btn:hover {
+    -fx-background-color: rgba(30, 64, 175, 0.55);
+    -fx-border-color: rgba(191, 219, 254, 0.85);
+}
+
+Button.progresso-header-menu-btn:armed {
+    -fx-background-color: rgba(15, 23, 42, 0.95);
+    -fx-border-color: rgba(148, 163, 184, 0.9);
+}
+
+.progresso-resumo-label {
+    -fx-text-fill: rgba(255, 255, 255, 0.95);
+    -fx-effect: dropshadow(gaussian, rgba(0, 0, 0, 0.356), 8, 0.6, 0, 0);
+    -fx-font-size: 11px;
+    -fx-font-weight: bold;
+}
+
+.progresso-resumo-label-sec {
+    -fx-text-fill: rgba(255, 255, 255, 0.95);
+    -fx-effect: dropshadow(gaussian, rgba(0, 0, 0, 0.356), 8, 0.6, 0, 0);
+    -fx-font-size: 10px;
+}
+
+
+
+.tarefas-card-root {
+    -fx-background-color: transparent;
+    -fx-background-radius: 24;
+    -fx-border-radius: 24;
+    -fx-text-fill: #f9fafb;
+    -fx-max-width: 800;
+    -fx-max-height: 320;
+    -fx-border-color:
+        rgba(248, 250, 252, 0.349) rgba(248, 250, 252, 0.26) rgba(248, 250, 252, 0.26) rgba(248, 250, 252, 0.349);
+    -fx-border-width: 2 1 1 2;
+}
+
+.tarefas-card-inner {
+    -fx-background-color: transparent;
+
+    -fx-padding: 16 18 14 18;
+    -fx-spacing: 10;
+}
+
+.tarefas-header-title {
+    -fx-text-fill: #f9fafb;
+    -fx-effect: dropshadow(gaussian, rgba(0, 0, 0, 0.356), 8, 0.6, 0, 0);
+    -fx-font-size: 13px;
+    -fx-font-weight: bold;
+}
+
+.tarefas-header-summary {
+    -fx-text-fill: rgba(160, 205, 233, 0.95);
+    -fx-effect: dropshadow(gaussian, rgba(0, 0, 0, 0.356), 8, 0.6, 0, 0);
+    -fx-font-size: 11px;
+}
+
+.tarefas-section-title {
+    -fx-text-fill: #e5e7eb;
+    -fx-effect: dropshadow(gaussian, rgba(0, 0, 0, 0.356), 8, 0.6, 0, 0);
+    -fx-font-size: 11px;
+    -fx-font-weight: bold;
+}
+
+.tarefas-list {
+    -fx-text-fill: #f9fafb;
+    -fx-padding: 2 0 0 4;
+}
+
+.tarefas-item {
+    -fx-text-fill: #ffffff;
+    -fx-effect: dropshadow(gaussian, rgba(0, 0, 0, 0.356), 8, 0.6, 0, 0);
+    -fx-font-size: 11px;
+}
+
+.tarefas-item-concluida {
+    -fx-text-fill: #f9fafb;
+    -fx-opacity: 0.7;
+    -fx-strikethrough: true;
+}
+
+.tarefas-item-pendente {
+    -fx-text-fill: #f9fafb;
+}
+
+.tarefas-divider {
+    -fx-text-fill: #f9fafb;
+    -fx-pref-height: 8;
+}
+
+
+.habitos-card-root {
+    -fx-background-color: transparent;
+    -fx-background-radius: 24;
+    -fx-border-radius: 24;
+
+    -fx-border-color:
+        rgba(248, 250, 252, 0.349) rgba(248, 250, 252, 0.26) rgba(248, 250, 252, 0.26) rgba(248, 250, 252, 0.349);
+
+    -fx-border-width: 2 1 1 2;
+
+    -fx-max-width: 500;
+    -fx-max-height: 500;
+}
+
+.habitos-card-inner {
+    -fx-background-color: transparent;
+    -fx-padding: 16 18 16 18;
+}
+
+
+.habitos-title {
+    -fx-text-fill: #f9fafb;
+    -fx-font-size: 14px;
+    -fx-font-weight: bold;
+}
+
+
+.habitos-item-title {
+    -fx-text-fill: rgba(229, 231, 235, 0.85);
+    -fx-font-size: 12px;
+    -fx-font-weight: bold;
+}
+
+.habitos-item-value {
+    -fx-text-fill: rgba(148, 163, 184, 0.95);
+    -fx-font-size: 12px;
+    -fx-font-weight: bold;
+}
+
+
+.habitos-bar-track {
+    -fx-background-color: rgba(255, 255, 255, 0.12);
+    -fx-background-radius: 999;
+    -fx-padding: 2;
+    -fx-pref-width: 100;
+}
+
+.habitos-bar-fill {
+    -fx-background-color: linear-gradient(to right, #38bdf8, #0ea5e9);
+    -fx-background-radius: 999;
+    -fx-pref-height: 6;
+}

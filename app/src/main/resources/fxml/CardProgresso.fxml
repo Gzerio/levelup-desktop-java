@@ -1,0 +1,93 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.geometry.Insets?>
+<?import javafx.scene.Group?>
+<?import javafx.scene.control.Label?>
+<?import javafx.scene.image.ImageView?>
+<?import javafx.scene.layout.HBox?>
+<?import javafx.scene.layout.Region?>
+<?import javafx.scene.layout.StackPane?>
+<?import javafx.scene.layout.VBox?>
+<?import javafx.scene.shape.Arc?>
+
+<StackPane xmlns:fx="http://javafx.com/fxml"
+       fx:id="cardProgressoRoot"
+       styleClass="progresso-card-root">
+
+       <StackPane fx:id="cardProgressoBlurLayer"
+              styleClass="player-card-blur-layer"
+              mouseTransparent="true">
+              <ImageView fx:id="cardProgressoBgImage"
+                     preserveRatio="false"
+                     smooth="true"
+                     cache="true"
+                     mouseTransparent="true" />
+       </StackPane>
+
+       <VBox styleClass="progresso-card-inner" spacing="12">
+
+              <HBox alignment="CENTER_LEFT" spacing="8">
+                     <Label text="Progresso de hoje"
+                            styleClass="progresso-header-title" />
+
+                     <Region HBox.hgrow="ALWAYS" />
+
+                     <Label fx:id="labelDetalheProgresso"
+                            text="+240 XP hoje"
+                            styleClass="progresso-gauge-detail" />
+              </HBox>
+
+              <StackPane styleClass="progresso-gauge-root"
+                     alignment="CENTER"
+                     prefWidth="220"
+                     prefHeight="170">
+
+                     <Group>
+
+                            <Arc fx:id="gaugeTrack"
+                                   centerX="110" centerY="110"
+                                   radiusX="90" radiusY="90"
+                                   startAngle="210"
+                                   length="-240"
+                                   type="OPEN"
+                                   strokeWidth="16"
+                                   strokeType="CENTERED"
+                                   strokeLineCap="ROUND"
+                                   styleClass="progresso-gauge-track" />
+
+                            <Arc fx:id="gaugeValor"
+                                   centerX="110" centerY="110"
+                                   radiusX="90" radiusY="90"
+                                   startAngle="210"
+                                   length="-160"
+                                   type="OPEN"
+                                   strokeWidth="16"
+                                   strokeType="CENTERED"
+                                   strokeLineCap="ROUND"
+                                   styleClass="progresso-gauge-fill" />
+                     </Group>
+
+                     <VBox alignment="CENTER" spacing="4">
+                            <Label fx:id="labelStatusProgresso"
+                                   text="Focando hoje"
+                                   styleClass="progresso-gauge-status" />
+
+                            <Label fx:id="labelPercentualProgresso"
+                                   text="68%"
+                                   styleClass="progresso-gauge-percent" />
+                     </VBox>
+              </StackPane>
+              <VBox alignment="CENTER" spacing="2">
+                     <Label fx:id="labelMetaProgresso"
+                            text="Meta de hoje: 3h de foco"
+                            styleClass="progresso-resumo-label" />
+
+                     <Label fx:id="labelRestanteProgresso"
+                            text="Faltam 45min pra concluir"
+                            styleClass="progresso-resumo-label-sec" />
+              </VBox>
+
+
+       </VBox>
+
+</StackPane>

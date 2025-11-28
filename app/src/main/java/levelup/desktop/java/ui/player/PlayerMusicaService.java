@@ -53,6 +53,18 @@ public class PlayerMusicaService {
         }
     }
 
+    private Runnable onFaixaMudou;
+
+    public void setOnFaixaMudou(Runnable onFaixaMudou) {
+        this.onFaixaMudou = onFaixaMudou;
+    }
+
+    private void notificarMudancaFaixa() {
+        if (onFaixaMudou != null) {
+            onFaixaMudou.run();
+        }
+    }
+
     private final List<FaixaLofi> playlist = List.of(
             new FaixaLofi(
                     "lofi_back",
@@ -157,6 +169,7 @@ public class PlayerMusicaService {
 
         if (mediaPlayer == null) {
             trocarParaIndice(indiceAtual, true);
+            notificarMudancaFaixa();
             return true;
         }
 
@@ -178,6 +191,7 @@ public class PlayerMusicaService {
             return;
         int novo = (indiceAtual + 1) % playlist.size();
         trocarParaIndice(novo, true);
+        notificarMudancaFaixa();
     }
 
     public void faixaAnterior() {
@@ -188,6 +202,7 @@ public class PlayerMusicaService {
             novo = playlist.size() - 1;
         }
         trocarParaIndice(novo, true);
+        notificarMudancaFaixa();
     }
 
     public void setVolume(double volume) {

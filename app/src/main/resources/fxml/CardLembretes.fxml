@@ -1,0 +1,140 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.scene.control.Button?>
+<?import javafx.scene.control.Label?>
+<?import javafx.scene.control.Separator?>
+<?import javafx.scene.control.TextField?>
+<?import javafx.scene.image.Image?>
+<?import javafx.scene.image.ImageView?>
+<?import javafx.scene.layout.HBox?>
+<?import javafx.scene.layout.Region?>
+<?import javafx.scene.layout.StackPane?>
+<?import javafx.scene.layout.VBox?>
+
+<StackPane xmlns:fx="http://javafx.com/fxml"
+    fx:id="cardLembretesRoot"
+    styleClass="lembretes-card-root">
+
+    <StackPane fx:id="cardLembretesBlurLayer"
+        styleClass="inicio-card-blur-layer"
+        mouseTransparent="true">
+        <ImageView fx:id="cardLembretesBgImage"
+            preserveRatio="false"
+            smooth="true"
+            cache="true"
+            mouseTransparent="true" />
+    </StackPane>
+
+    <VBox styleClass="inicio-card-inner" spacing="10">
+
+        <HBox alignment="CENTER_LEFT" spacing="8">
+            <Label text="Lembretes"
+                styleClass="lembretes-title" />
+
+            <Region HBox.hgrow="ALWAYS" />
+
+            <Button fx:id="btnSomLembretes"
+                styleClass="lembretes-icon-btn">
+                <graphic>
+                    <ImageView fx:id="iconeSomLembretes"
+                        fitWidth="16"
+                        fitHeight="16"
+                        preserveRatio="true"
+                        smooth="true">
+                        <image>
+                            <Image url="/images/somativo.png" />
+                        </image>
+                    </ImageView>
+                </graphic>
+            </Button>
+
+            <Button fx:id="btnNovoLembrete"
+                text="Novo lembrete"
+                styleClass="lembretes-novo-btn" />
+
+        </HBox>
+
+        <VBox fx:id="formNovoLembrete"
+            spacing="6"
+            visible="false"
+            managed="false"
+            styleClass="lembretes-form">
+
+            <Label text="Novo lembrete"
+                styleClass="lembretes-section-title" />
+
+            <TextField fx:id="campoTituloLembrete"
+                promptText="Ex: Reunião com equipe"
+                styleClass="lembretes-input" />
+
+            <HBox spacing="8" alignment="CENTER_LEFT">
+                <TextField fx:id="campoHorarioLembrete"
+                    promptText="Horário (ex: 15:00)"
+                    prefWidth="100"
+                    styleClass="lembretes-input" />
+                <Region HBox.hgrow="ALWAYS" />
+                <Button fx:id="btnSalvarLembrete"
+                    text="Salvar"
+                    styleClass="lembretes-salvar-btn" />
+            </HBox>
+        </VBox>
+
+        <Separator styleClass="lembretes-divider" />
+
+        <Label text="Ativos"
+            styleClass="lembretes-section-title" />
+
+        <VBox fx:id="listaLembretes" spacing="6">
+
+            <HBox alignment="CENTER_LEFT"
+                spacing="10"
+                styleClass="lembrete-item">
+                <Label text="15:00  Reunião com equipe"
+                    styleClass="lembrete-item-text" />
+                <Region HBox.hgrow="ALWAYS" />
+                <Button styleClass="lembrete-delete-btn">
+                    <graphic>
+                        <ImageView fitWidth="14"
+                            fitHeight="14"
+                            preserveRatio="true"
+                            smooth="true">
+                            <image>
+                                <Image url="/images/lixeira.png" />
+                            </image>
+                        </ImageView>
+                    </graphic>
+                </Button>
+
+            </HBox>
+
+            <HBox alignment="CENTER_LEFT"
+                spacing="10"
+                styleClass="lembrete-item">
+                <Label text="20:30  Estudar Java"
+                    styleClass="lembrete-item-text" />
+                <Region HBox.hgrow="ALWAYS" />
+                <Button styleClass="lembrete-item-menu-btn">
+                    <graphic>
+                        <ImageView fitWidth="14"
+                            fitHeight="14"
+                            preserveRatio="true"
+                            smooth="true">
+                            <image>
+                                <Image url="/images/menu1.png" />
+                            </image>
+                        </ImageView>
+                    </graphic>
+                </Button>
+            </HBox>
+
+        </VBox>
+
+        <Label fx:id="lblSemLembretes"
+            text="Você não tem lembretes para hoje."
+            visible="false"
+            managed="false"
+            styleClass="lembretes-empty-label" />
+
+    </VBox>
+
+</StackPane>

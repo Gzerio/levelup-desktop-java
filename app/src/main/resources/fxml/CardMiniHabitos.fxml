@@ -1,0 +1,68 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.scene.layout.*?>
+<?import javafx.scene.control.*?>
+<?import javafx.scene.image.ImageView?>
+
+<StackPane xmlns:fx="http://javafx.com/fxml"
+    fx:id="cardHabitosRoot"
+    styleClass="habitos-card-root">
+
+    <StackPane fx:id="cardHabitosBlurLayer"
+        styleClass="player-card-blur-layer"
+        mouseTransparent="true">
+        <ImageView fx:id="cardHabitosBgImage"
+            preserveRatio="false"
+            smooth="true"
+            cache="true"
+            mouseTransparent="true" />
+    </StackPane>
+
+    <VBox styleClass="habitos-card-inner" spacing="10">
+
+        <Label text="Hábitos"
+            styleClass="habitos-title" />
+
+        <VBox spacing="12">
+
+            <HBox spacing="10" alignment="CENTER_LEFT">
+                <Label text="⭐ Água"
+                    styleClass="habitos-item-title" />
+                <Region HBox.hgrow="ALWAYS" />
+                <Label text="5/8"
+                    styleClass="habitos-item-value" />
+            </HBox>
+
+            <HBox styleClass="habitos-bar-track">
+                <Pane styleClass="habitos-bar-fill" prefWidth="60" />
+            </HBox>
+
+            <HBox spacing="10" alignment="CENTER_LEFT">
+                <Label text="📚 Estudo"
+                    styleClass="habitos-item-title" />
+                <Region HBox.hgrow="ALWAYS" />
+                <Label text="40min"
+                    styleClass="habitos-item-value" />
+            </HBox>
+
+            <HBox spacing="10" alignment="CENTER_LEFT">
+                <Label text="🛏️ Dormiu"
+                    styleClass="habitos-item-title" />
+                <Region HBox.hgrow="ALWAYS" />
+                <Label text="6h45"
+                    styleClass="habitos-item-value" />
+            </HBox>
+
+            <HBox spacing="10" alignment="CENTER_LEFT">
+                <Label text="💪 Exercício"
+                    styleClass="habitos-item-title" />
+                <Region HBox.hgrow="ALWAYS" />
+                <Label text="0/1"
+                    styleClass="habitos-item-value" />
+            </HBox>
+
+        </VBox>
+
+    </VBox>
+
+</StackPane>

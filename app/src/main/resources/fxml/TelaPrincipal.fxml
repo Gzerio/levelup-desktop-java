@@ -87,9 +87,7 @@
        <center>
               <StackPane fx:id="conteudoCentral"
                      BorderPane.alignment="CENTER"
-                     styleClass="principal-conteudo"
-              >
-
+                     styleClass="principal-conteudo">
 
                      <HBox fx:id="inicioContainer"
                             spacing="16"
@@ -100,153 +98,181 @@
                                    <Insets top="75" left="1" right="24" bottom="24" />
                             </StackPane.margin>
 
+                            <VBox spacing="12">
 
-                            <StackPane fx:id="cardInicioRoot"
-                                   styleClass="inicio-card-root"
-                                   mouseTransparent="true"
-                            >
+                                   <StackPane fx:id="cardInicioRoot"
+                                          styleClass="inicio-card-root"
+                                          mouseTransparent="true">
 
-                                   <StackPane fx:id="cardInicioBlurLayer"
-                                          styleClass="inicio-card-blur-layer"
-                                          mouseTransparent="true"
-                                   >
-                                          <ImageView fx:id="cardInicioBgImage"
-                                                 preserveRatio="false"
-                                                 smooth="true"
-                                                 cache="true"
-                                                 mouseTransparent="true"
-                                          />
-                                   </StackPane>
-
-                                   <VBox styleClass="inicio-card-inner"
-                                          spacing="10">
-
-                                          <HBox spacing="8"
-                                                 alignment="CENTER_LEFT">
-                                                 <Label fx:id="labelSaudacaoUsuario"
-                                                        text="Bom dia, Guilherme"
-                                                        styleClass="inicio-card-greeting" />
-
-                                                 <Region HBox.hgrow="ALWAYS" />
-
-                                                 <Label fx:id="labelResumoClima"
-                                                        text="Céu limpo, 22°C"
-                                                        styleClass="inicio-card-summary" />
-                                          </HBox>
-
-                                          <HBox spacing="16"
-                                                 alignment="CENTER_LEFT">
-
-                                                 <ImageView fx:id="imagemClimaAtual"
-                                                        fitWidth="40"
-                                                        fitHeight="40"
-                                                        preserveRatio="true"
+                                          <StackPane fx:id="cardInicioBlurLayer"
+                                                 styleClass="inicio-card-blur-layer"
+                                                 mouseTransparent="true">
+                                                 <ImageView fx:id="cardInicioBgImage"
+                                                        preserveRatio="false"
                                                         smooth="true"
                                                         cache="true"
-                                                        styleClass="inicio-card-main-icon" />
+                                                        mouseTransparent="true" />
+                                          </StackPane>
 
-                                                 <VBox spacing="4">
-                                                        <Label fx:id="labelHorarioAtual"
-                                                               text="01:34"
-                                                               styleClass="inicio-card-time" />
-                                                        <Label fx:id="labelDataAtual"
-                                                               text="21/11/2025"
-                                                               styleClass="inicio-card-date" />
+                                          <VBox styleClass="inicio-card-inner"
+                                                 spacing="10">
+
+                                                 <HBox spacing="8"
+                                                        alignment="CENTER_LEFT">
+                                                        <Label fx:id="labelSaudacaoUsuario"
+                                                               text="Bom dia, Guilherme"
+                                                               styleClass="inicio-card-greeting" />
+
+                                                        <Region HBox.hgrow="ALWAYS" />
+
+                                                        <Label fx:id="labelResumoClima"
+                                                               text="Céu limpo, 22°C"
+                                                               styleClass="inicio-card-summary" />
+                                                 </HBox>
+
+                                                 <HBox spacing="16"
+                                                        alignment="CENTER_LEFT">
+
+                                                        <ImageView fx:id="imagemClimaAtual"
+                                                               fitWidth="40"
+                                                               fitHeight="40"
+                                                               preserveRatio="true"
+                                                               smooth="true"
+                                                               cache="true"
+                                                               styleClass="inicio-card-main-icon" />
+
+                                                        <VBox spacing="4">
+                                                               <Label fx:id="labelHorarioAtual"
+                                                                      text="01:34"
+                                                                      styleClass="inicio-card-time" />
+                                                               <Label fx:id="labelDataAtual"
+                                                                      text="21/11/2025"
+                                                                      styleClass="inicio-card-date" />
+                                                        </VBox>
+                                                 </HBox>
+
+                                                 <VBox spacing="6"
+                                                        styleClass="inicio-card-forecast">
+
+                                                        <HBox spacing="8"
+                                                               alignment="CENTER_LEFT"
+                                                               styleClass="forecast-row">
+                                                               <Label fx:id="labelDia1"
+                                                                      text="Dom"
+                                                                      styleClass="forecast-day" />
+                                                               <Label fx:id="labelMin1"
+                                                                      text="15°C"
+                                                                      styleClass="forecast-temp-min" />
+                                                               <StackPane HBox.hgrow="ALWAYS"
+                                                                      styleClass="forecast-bar-track">
+                                                                      <Region fx:id="barraDia1"
+                                                                             styleClass="forecast-bar-fill" />
+                                                               </StackPane>
+                                                               <Label fx:id="labelMax1"
+                                                                      text="22°C"
+                                                                      styleClass="forecast-temp-max" />
+                                                        </HBox>
+
+                                                        <HBox spacing="8"
+                                                               alignment="CENTER_LEFT"
+                                                               styleClass="forecast-row">
+                                                               <Label fx:id="labelDia2"
+                                                                      text="Seg"
+                                                                      styleClass="forecast-day" />
+                                                               <Label fx:id="labelMin2"
+                                                                      text="8°C"
+                                                                      styleClass="forecast-temp-min" />
+                                                               <StackPane HBox.hgrow="ALWAYS"
+                                                                      styleClass="forecast-bar-track">
+                                                                      <Region fx:id="barraDia2"
+                                                                             styleClass="forecast-bar-fill" />
+                                                               </StackPane>
+                                                               <Label fx:id="labelMax2"
+                                                                      text="19°C"
+                                                                      styleClass="forecast-temp-max" />
+                                                        </HBox>
+
+                                                        <HBox spacing="8"
+                                                               alignment="CENTER_LEFT"
+                                                               styleClass="forecast-row">
+                                                               <Label fx:id="labelDia3"
+                                                                      text="Ter"
+                                                                      styleClass="forecast-day" />
+                                                               <Label fx:id="labelMin3"
+                                                                      text="9°C"
+                                                                      styleClass="forecast-temp-min" />
+                                                               <StackPane HBox.hgrow="ALWAYS"
+                                                                      styleClass="forecast-bar-track">
+                                                                      <Region fx:id="barraDia3"
+                                                                             styleClass="forecast-bar-fill" />
+                                                               </StackPane>
+                                                               <Label fx:id="labelMax3"
+                                                                      text="15°C"
+                                                                      styleClass="forecast-temp-max" />
+                                                        </HBox>
+
+                                                        <HBox spacing="8"
+                                                               alignment="CENTER_LEFT"
+                                                               styleClass="forecast-row">
+                                                               <Label fx:id="labelDia4"
+                                                                      text="Qua"
+                                                                      styleClass="forecast-day" />
+                                                               <Label fx:id="labelMin4"
+                                                                      text="6°C"
+                                                                      styleClass="forecast-temp-min" />
+                                                               <StackPane HBox.hgrow="ALWAYS"
+                                                                      styleClass="forecast-bar-track">
+                                                                      <Region fx:id="barraDia4"
+                                                                             styleClass="forecast-bar-fill" />
+                                                               </StackPane>
+                                                               <Label fx:id="labelMax4"
+                                                                      text="12°C"
+                                                                      styleClass="forecast-temp-max" />
+                                                        </HBox>
+
                                                  </VBox>
-                                          </HBox>
-
-                                          <VBox spacing="6"
-                                                 styleClass="inicio-card-forecast">
-
-                                                 <HBox spacing="8"
-                                                        alignment="CENTER_LEFT"
-                                                        styleClass="forecast-row">
-                                                        <Label fx:id="labelDia1"
-                                                               text="Dom"
-                                                               styleClass="forecast-day" />
-                                                        <Label fx:id="labelMin1"
-                                                               text="15°C"
-                                                               styleClass="forecast-temp-min" />
-                                                        <StackPane HBox.hgrow="ALWAYS"
-                                                               styleClass="forecast-bar-track">
-                                                               <Region fx:id="barraDia1"
-                                                                      styleClass="forecast-bar-fill" />
-                                                        </StackPane>
-                                                        <Label fx:id="labelMax1"
-                                                               text="22°C"
-                                                               styleClass="forecast-temp-max" />
-                                                 </HBox>
-
-                                                 <HBox spacing="8"
-                                                        alignment="CENTER_LEFT"
-                                                        styleClass="forecast-row">
-                                                        <Label fx:id="labelDia2"
-                                                               text="Seg"
-                                                               styleClass="forecast-day" />
-                                                        <Label fx:id="labelMin2"
-                                                               text="8°C"
-                                                               styleClass="forecast-temp-min" />
-                                                        <StackPane HBox.hgrow="ALWAYS"
-                                                               styleClass="forecast-bar-track">
-                                                               <Region fx:id="barraDia2"
-                                                                      styleClass="forecast-bar-fill" />
-                                                        </StackPane>
-                                                        <Label fx:id="labelMax2"
-                                                               text="19°C"
-                                                               styleClass="forecast-temp-max" />
-                                                 </HBox>
-
-                                                 <HBox spacing="8"
-                                                        alignment="CENTER_LEFT"
-                                                        styleClass="forecast-row">
-                                                        <Label fx:id="labelDia3"
-                                                               text="Ter"
-                                                               styleClass="forecast-day" />
-                                                        <Label fx:id="labelMin3"
-                                                               text="9°C"
-                                                               styleClass="forecast-temp-min" />
-                                                        <StackPane HBox.hgrow="ALWAYS"
-                                                               styleClass="forecast-bar-track">
-                                                               <Region fx:id="barraDia3"
-                                                                      styleClass="forecast-bar-fill" />
-                                                        </StackPane>
-                                                        <Label fx:id="labelMax3"
-                                                               text="15°C"
-                                                               styleClass="forecast-temp-max" />
-                                                 </HBox>
-
-                                                 <HBox spacing="8"
-                                                        alignment="CENTER_LEFT"
-                                                        styleClass="forecast-row">
-                                                        <Label fx:id="labelDia4"
-                                                               text="Qua"
-                                                               styleClass="forecast-day" />
-                                                        <Label fx:id="labelMin4"
-                                                               text="6°C"
-                                                               styleClass="forecast-temp-min" />
-                                                        <StackPane HBox.hgrow="ALWAYS"
-                                                               styleClass="forecast-bar-track">
-                                                               <Region fx:id="barraDia4"
-                                                                      styleClass="forecast-bar-fill" />
-                                                        </StackPane>
-                                                        <Label fx:id="labelMax4"
-                                                               text="12°C"
-                                                               styleClass="forecast-temp-max" />
-                                                 </HBox>
 
                                           </VBox>
 
-                                   </VBox>
+                                   </StackPane>
 
-                            </StackPane>
+                                   <fx:include source="CardLembretes.fxml"
+                                          fx:id="cardLembretesInclude" />
 
+                            </VBox>
 
-                            <fx:include source="PlayerCard.fxml" fx:id="playerCardInclude" />
+                            <VBox spacing="12">
 
+                                   <HBox spacing="12" alignment="TOP_LEFT">
+
+                                          <fx:include source="PlayerCard.fxml"
+                                                 fx:id="playerCardInclude" />
+
+                                          <VBox spacing="12">
+
+                                                 <HBox spacing="12" alignment="TOP_LEFT">
+                                                        <fx:include source="CardProgresso.fxml"
+                                                               fx:id="cardProgressoInclude" />
+
+                                                        <fx:include source="CardTarefas.fxml"
+                                                               fx:id="cardTarefasInclude" />
+                                                 </HBox>
+
+                                                 <fx:include source="CardMiniHabitos.fxml"
+                                                        fx:id="cardHabitosInclude"
+                                                        prefWidth="500"
+                                                        maxWidth="500" />
+
+                                          </VBox>
+
+                                   </HBox>
+
+                            </VBox>
 
                      </HBox>
 
               </StackPane>
        </center>
+
 
 </BorderPane>

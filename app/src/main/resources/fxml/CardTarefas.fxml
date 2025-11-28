@@ -1,0 +1,67 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.geometry.Insets?>
+<?import javafx.scene.control.Label?>
+<?import javafx.scene.image.ImageView?>
+<?import javafx.scene.layout.HBox?>
+<?import javafx.scene.layout.Region?>
+<?import javafx.scene.layout.StackPane?>
+<?import javafx.scene.layout.VBox?>
+
+<StackPane xmlns:fx="http://javafx.com/fxml"
+       fx:id="cardTarefasRoot"
+       styleClass="tarefas-card-root"
+       prefWidth="1000">
+
+       <StackPane fx:id="cardTarefasBlurLayer"
+              styleClass="player-card-blur-layer"
+              mouseTransparent="true">
+              <ImageView fx:id="cardTarefasBgImage"
+                     preserveRatio="false"
+                     smooth="true"
+                     cache="true"
+                     mouseTransparent="true" />
+       </StackPane>
+
+       <VBox styleClass="tarefas-card-inner" spacing="10">
+
+              <HBox spacing="8" alignment="CENTER_LEFT">
+                     <Label text="Tarefas" styleClass="tarefas-header-title" />
+                     <Region HBox.hgrow="ALWAYS" />
+                     <Label fx:id="labelResumoTarefas"
+                            text="3 concluídas · 2 pendentes"
+                            styleClass="tarefas-header-summary" />
+              </HBox>
+
+              <VBox spacing="4">
+                     <Label text="Concluídas"
+                            styleClass="tarefas-section-title" />
+
+                     <VBox spacing="4" styleClass="tarefas-list">
+                            <Label text="• Finalizar aula de Java"
+                                   styleClass="tarefas-item " />
+                            <Label text="• Revisar metas da semana"
+                                   styleClass="tarefas-item " />
+                            <Label text="• Ler 10 páginas"
+                                   styleClass="tarefas-item" />
+                     </VBox>
+              </VBox>
+
+              <Region styleClass="tarefas-divider" />
+
+              <VBox spacing="4">
+                     <Label text="Pendentes"
+                            styleClass="tarefas-section-title" />
+
+                     <VBox spacing="4" styleClass="tarefas-list">
+                            <Label text="• Estudar AWS 30 min"
+                                   styleClass="tarefas-item " />
+                            <Label text="• Resolver 3 exercícios de C"
+                                   styleClass="tarefas-item " />
+                            <Label text="• Planejar sessão de foco amanhã"
+                                   styleClass="tarefas-item " />
+                     </VBox>
+              </VBox>
+
+       </VBox>
+</StackPane>
