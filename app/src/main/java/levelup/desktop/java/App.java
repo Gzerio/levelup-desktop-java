@@ -39,8 +39,8 @@ public class App extends Application {
 
         GerenciadorTelas.inicializar(stage, root, scene);
         
-        GerenciadorTelas.mostrarTelaLogin();
-       // GerenciadorTelas.mostrarTelaPrincipal();
+       // GerenciadorTelas.mostrarTelaLogin();
+       GerenciadorTelas.mostrarTelaPrincipal();
     }
 
     public static void main(String[] args) {
